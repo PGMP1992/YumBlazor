@@ -20,6 +20,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuth
 
 //DbSets ---------------------
 builder.Services.AddScoped<ICategoryRepos, CategoryRepos>();
+builder.Services.AddScoped<IProductRepos, ProductRepos>();
 
 builder.Services.AddAuthentication(options =>
     {

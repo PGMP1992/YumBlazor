@@ -1,0 +1,94 @@
+﻿@page "/Product/create"
+@page "/Product/update/{id:int}"
+@inject IProductRepos _productRepos
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _JS
+
+<h3>Product Upsert</h3>
+@if (IsProcessing)
+{
+    <div class="position-absolute w-75 h-75 d-flex flex-column align-items-center justify-content-center">
+        <img src="./images/loading.gif" alt="loading" />
+    </div>
+}
+else
+{
+    <div class="card border border-1 mt-4">
+        <div class="card-header bg-black  py-3">
+            <div class="text-center">
+                <h2 class="text-white py-2">@(Id> 0 ?"Create": "Update") Product List</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        <EditForm Model="Product" FormName="ProductUpsertForm" OnValidSubmit="UpsertProduct">
+            <DataAnnotationsValidator />
+            <div class="form-floating py-3">
+                <InputText @bind-Value="Product.Name" class="form-control" id="Name" placeholder="Name" />
+                <label for="Name">Name</label>
+                <ValidationMessage For="@(() => Product.Name)" />
+            </div>
+            <div class="row">
+                <div class="btn-group w-25" role="group">
+                    <button type="submit" class="btn btn-primary mx-1" disabled="@IsProcessing">
+                        <i class="bi bi-save"></i>
+                        Update
+                    </button>
+                    <a href="Product" class="btn btn-outline-primary mx-1" disabled="@IsProcessing">
+                        <i class="bi bi-arrow-bar-left"></i>
+                        Back to List
+                    </a>
+                </div>
+
+            </div>
+
+        </EditForm>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Product Product { get; set; } = new Product();
+
+    private bool IsProcessing { get; set; } = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadProduct();
+            IsProcessing = false;
+            StateHasChanged();
+        }
+        //return  base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task LoadProduct()
+    {
+        if(Id > 0) {
+            Product = await _productRepos.GetAsync(Id);
+        }
+    }
+
+    private async Task UpsertProduct()
+    {
+        IsProcessing = true;
+        if ( Product.Id == 0)
+        {
+            await _productRepos.CreateAsync(Product);
+            _JS.ToastrSuccess("Product Created");
+        } 
+        else 
+        {
+            await _productRepos.UpdateAsync(Product);
+            _JS.ToastrSuccess("Product Updated");
+        }
+        IsProcessing = false;
+        _navigationManager.NavigateTo("Product");
+    }
+}

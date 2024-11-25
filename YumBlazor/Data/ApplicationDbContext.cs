@@ -7,6 +7,7 @@ namespace YumBlazor.Data
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<AppUser>(options)
     {
         public required DbSet<Category> Categories { get; set; }
+        public required DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

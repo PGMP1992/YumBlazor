@@ -1,13 +1,13 @@
-﻿@page "/category"
-@* @page "/category/delete/{id:int} *@"
+﻿@page "/Product"
+@* @page "/Product/delete/{id:int} *@"
 
-@inject ICategoryRepos _categoryRepos
+@inject IProductRepos _productRepos
 @inject IJSRuntime _JS
 
 <BsModel OnModalConfirmation="ConfirmDelete_click"
     ButtonStyle="btn-danger"
     ButtonText="Delete"
-    Title="Are you sure you want to Delete this Category?"
+    Title="Are you sure you want to Delete this Product?"
 ></BsModel>
 
 @if(IsProcessing ) {
@@ -18,21 +18,21 @@
 else {
     <div class="card border border-1">
         <div class="card-header bg-black py-1">
-            <h2 class="text-white py-2">Category List</h2>
+            <h2 class="text-white py-2">Product List</h2>
         </div>
     </div>
 
     <div class="card-body py-2">
         <div class="row">
             <div class="text-end">
-                <a href="category/create" class="btn btn-primary" style="width:100px">
+                <a href="Product/create" class="btn btn-primary" style="width:100px">
                     <i class="bi bi-plus-square"></i>
                     New</a>
             </div>
         </div>
     </div>
 
-    @if(Categories.Any())
+    @if(Products.Any())
     {
         <div class="table-responsive">
             <table class="table table-sm-3 table-hover">
@@ -43,16 +43,16 @@ else {
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(var item in Categories)
+                    @foreach(var item in Products)
                     {
                         <tr>
                             <td>@item.Name</td>
                             <td>
-                                <a href="@($"/category/update/{item.Id}")" class="btn btn-primary">
+                                <a href="@($"/Product/update/{item.Id}")" class="btn btn-primary">
                                     <i class="bi bi-pencil-square"></i>
                                     Edit
                                     </a>
-                                <a href="@($"/category/delete/{item.Id}")" class="btn btn-danger" @onclick="()=>HandleDelete(item.Id)">
+                                <a href="@($"/Product/delete/{item.Id}")" class="btn btn-danger" @onclick="()=>HandleDelete(item.Id)">
                                     <i class="bi bi-trash3"></i>
                                     Delete
                                     </a>
@@ -69,29 +69,29 @@ else {
 @code {
 
     private bool IsProcessing { get; set; } = true;
-    private IEnumerable<Category> Categories { get; set; }
-    private int DeleteCategoryId { get; set; } = 0;
+    private IEnumerable<Product> Products { get; set; }
+    private int DeleteProductId { get; set; } = 0;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if( firstRender)
         {
-            await LoadCategories();
+            await LoadProducts();
             IsProcessing = false;
             StateHasChanged();
         }
         //return  base.OnAfterRenderAsync(firstRender);
     }
 
-    private async Task LoadCategories()
+    private async Task LoadProducts()
     {
         //Thread.Sleep(1000);
-        Categories = await _categoryRepos.GetAllAsync();
+        Products = await _productRepos.GetAllAsync();
     }
 
     private void HandleDelete(int id)
     {
-        DeleteCategoryId =  id;
+        DeleteProductId =  id;
         _JS.InvokeVoidAsync("ShowModal");
     }
 
@@ -100,17 +100,17 @@ else {
         IsProcessing = true;
         await _JS.InvokeVoidAsync("HideModal");
 
-        if(isConfirmed && DeleteCategoryId != 0)
+        if(isConfirmed && DeleteProductId != 0)
         {
-            var result = await _categoryRepos.DeleteAsync(DeleteCategoryId);
+            var result = await _productRepos.DeleteAsync(DeleteProductId);
             if(result)
-                _JS?.ToastrSuccess("Category Deleted");
+                _JS?.ToastrSuccess("Product Deleted");
             else
                 _JS?.ToastrError("Error Encountered while trying to Delete.");
 
-            await LoadCategories();
+            await LoadProducts();
         }
-        DeleteCategoryId = 0;
+        DeleteProductId = 0;
         IsProcessing = false;
     }
 }
