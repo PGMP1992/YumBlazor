@@ -16,13 +16,17 @@ else {
             </div>
         </div>
     </div>
+
     <div class="card-body py-2">
         <div class="row">
             <div class="text-end">
-                <button class="btn btn-primary" style="width:100px">New</button>
+                <a href="category/create" class="btn btn-primary" style="width:100px">
+                    <i class="bi bi-plus-square"></i>
+                    New</a>
             </div>
         </div>
     </div>
+
     @if(Categories.Any())
     {
         <div class="table-responsive">
@@ -39,34 +43,46 @@ else {
                         <tr>
                             <td>@item.Name</td>
                             <td>
-                                <buttom class="btn btn-primary">Edit</buttom>
-                                <buttom class="btn btn-danger">Delete</buttom>
+                                <a href="@($"category/update/{item.Id}")" class="btn btn-primary">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Edit</a>
+                                <a href="@($"category/delete/{item.Id}")"  class="btn btn-danger">
+                                    <i class="bi bi-trash3"></i>
+                                    Delete</a>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-
     }
-    
 }
 
 
 @code {
-    private bool IsProcessing { get; set; } = false;
+
+    private bool IsProcessing { get; set; } = true;
     private IEnumerable<Category> Categories { get; set; }  
 
-    protected override async Task OnInitializedAsync()
+    // protected override async Task OnInitializedAsync()
+    // {
+
+    // }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        IsProcessing = true;
-        await Task.Delay(500);
-        LoadCategories();
-        IsProcessing = false;
+        if( firstRender)
+        {
+            await LoadCategories();
+            IsProcessing = false;
+            StateHasChanged();
+        }
+        //return  base.OnAfterRenderAsync(firstRender);
     }
 
-    private void LoadCategories()
+    private async Task LoadCategories()
     {
-        Categories = _categoryRepos.GetAll();
+        //Thread.Sleep(1000);
+        Categories = await _categoryRepos.GetAllAsync();
     }
 }

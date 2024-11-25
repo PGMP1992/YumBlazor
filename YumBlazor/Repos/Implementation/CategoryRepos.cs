@@ -1,4 +1,5 @@
-﻿using YumBlazor.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using YumBlazor.Data;
 using YumBlazor.Models;
 using YumBlazor.Repos.Interfaces;
 
@@ -13,32 +14,27 @@ namespace YumBlazor.Repos.Implementation
             _db = db;
         }
 
-        public Category Create(Category category)
+        public async Task<Category> CreateAsync(Category category)
         {
-            _db.Categories.Add(category);
-            _db.SaveChanges();
+            await _db.Categories.AddAsync(category);
+            await _db.SaveChangesAsync();
             return category;
         }
-
-        public Category Create(CategoryRepos category)
+        
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Delete(int id)
-        {
-            var category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            var category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
             if (category != null)
             {
                 _db.Categories.Remove(category);
-                return _db.SaveChanges() > 0;
+                return (await _db.SaveChangesAsync()) > 0;
             }
             return false;
         }
 
-        public Category Get(int id)
+        public async Task<Category> GetAsync(int id)
         {
-            var category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            var category = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
             if (category == null)
             {
                 return new Category();
@@ -46,19 +42,19 @@ namespace YumBlazor.Repos.Implementation
             return category;
         }
 
-        public IEnumerable<Category> GetAll()
+        public async Task<IEnumerable<Category>> GetAllAsync()
         {
-            return _db.Categories.ToList();
+            return await _db.Categories.ToListAsync();
         }
 
-        public Category Update(Category category)
+        public async Task<Category> UpdateAsync(Category category)
         {
-            var fromDb = _db.Categories.FirstOrDefault(c => c.Id == category.Id);
+            var fromDb = await _db.Categories.FirstOrDefaultAsync(c => c.Id == category.Id);
             if (fromDb is not null)
             {
                 fromDb.Name = category.Name;
                 _db.Categories.Update(fromDb);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 return fromDb;
             }
             return category;
