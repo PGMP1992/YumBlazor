@@ -20,10 +20,9 @@ namespace YumBlazor.Models
         public string? Tag { get; set; }
 
         public int CategoryId { get; set; }
-        [ForeignKey(nameof(CategoryId))]
+        [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 
-        [MaxLength(50)]
         public string? ImageUrl { get; set; }
     }
 }

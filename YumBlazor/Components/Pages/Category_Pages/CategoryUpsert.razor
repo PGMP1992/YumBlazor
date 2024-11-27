@@ -1,52 +1,57 @@
 ﻿@page "/category/create"
 @page "/category/update/{id:int}"
-@inject ICategoryRepos _categoryRepos
+@inject ICategoryRepos _categoryRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _JS
 
-<h3>Category Upsert</h3>
 @if (IsProcessing)
 {
-    <div class="position-absolute w-75 h-75 d-flex flex-column align-items-center justify-content-center">
-        <img src="./images/loading.gif" alt="loading" />
+    <div class="position-absolute w-75 h-75 d-flex flex-column align-items-center bg-white justify-content-center">
+        <img src="/images/loading.gif" alt="loading" />
     </div>
 }
 else
 {
-    <div class="card border border-1 mt-4">
-        <div class="card-header bg-black  py-3">
-            <div class="text-center">
-                <h2 class="text-white py-2">@(Id> 0 ?"Create": "Update") Category List</h2>
+    <div class="card border-1 m-4">
+        <div class="card-header bg-black bg-gradient ml-0 py-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="text-white py-2">@( Id == 0 ? "Create": "Update") Category</h2>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="card-body p-4">
-        <EditForm Model="Category" FormName="CategoryUpsertForm" OnValidSubmit="UpsertCategory">
-            <DataAnnotationsValidator />
-            <div class="form-floating py-3">
-                <InputText @bind-Value="Category.Name" class="form-control" id="Name" placeholder="Name" />
-                <label for="Name">Name</label>
-                <ValidationMessage For="@(() => Category.Name)" />
-            </div>
-            <div class="row">
-                <div class="btn-group w-25" role="group">
-                    <button type="submit" class="btn btn-primary mx-1" disabled="@IsProcessing">
-                        <i class="bi bi-save"></i>
-                        Update
-                    </button>
-                    <a href="category" class="btn btn-outline-primary mx-1" disabled="@IsProcessing">
-                        <i class="bi bi-arrow-bar-left"></i>
-                        Back to List
-                    </a>
-                </div>
-
-            </div>
-
-        </EditForm>
+        <div class="card-body">
+            <EditForm Model="Category" FormName="CategoryUpsertForm" OnValidSubmit="UpsertCategory">
+                <DataAnnotationsValidator/>
+                
+                <div class="border-0 p-1 mt-2">
+                    <div class="form-floating py-3 col-12">
+                        <InputText @bind-Value="Category.Name" class="form-control" id="Name" placeholder="Name" />
+                        <label for="Name">Name</label>
+                        <ValidationMessage For="@(() => Category.Name)" />
+                    </div>
+                    
+                    @* Buttons ------------------ *@
+                    <div class="row ">
+                        <div class="btn-group w-25" role="group">
+                            <button type="submit" class="btn btn-primary mx-1" disabled="@IsProcessing">
+                                <i class="bi bi-floppy2-fill"></i> 
+                                @(Id == 0 ? "Create" : "Update")
+                            </button>
+                            <a href="category" class="btn btn-outline-primary mx-1" disabled="@IsProcessing">
+                                <i class="bi bi-arrow-bar-left"></i> Back
+                            </a>
+                        </div>
+                        </div>
+                    </div>
+                
+                
+            </EditForm>
+            
+        </div>
     </div>
 }
-
 
 @code {
     [Parameter]
@@ -65,28 +70,31 @@ else
             IsProcessing = false;
             StateHasChanged();
         }
-        //return  base.OnAfterRenderAsync(firstRender);
+        //return base.OnAfterRenderAsync(firstRender);
     }
 
     private async Task LoadCategory()
     {
-        if(Id > 0) {
-            Category = await _categoryRepos.GetAsync(Id);
+        if (Id > 0)
+        {
+            Category = await _categoryRepository.GetAsync(Id);
         }
     }
 
     private async Task UpsertCategory()
     {
         IsProcessing = true;
-        if ( Category.Id == 0)
+        if (Category.Id == 0)
         {
-            await _categoryRepos.CreateAsync(Category);
-            _JS.ToastrSuccess("Category Created");
-        } 
-        else 
+            //create
+            await _categoryRepository.CreateAsync(Category);
+            await _JS.ToastrSuccess("Category Created Successfully");
+        }
+        else
         {
-            await _categoryRepos.UpdateAsync(Category);
-            _JS.ToastrSuccess("Category Updated");
+            //update
+            await _categoryRepository.UpdateAsync(Category);
+            await _JS.ToastrSuccess("Category Updated Successfully");
         }
         IsProcessing = false;
         _navigationManager.NavigateTo("category");

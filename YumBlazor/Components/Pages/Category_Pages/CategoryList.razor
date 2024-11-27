@@ -1,116 +1,113 @@
 ﻿@page "/category"
-@* @page "/category/delete/{id:int} *@"
-
-@inject ICategoryRepos _categoryRepos
+@inject ICategoryRepos _categoryRepository
 @inject IJSRuntime _JS
 
-<BsModel OnModalConfirmation="ConfirmDelete_click"
-    ButtonStyle="btn-danger"
-    ButtonText="Delete"
-    Title="Are you sure you want to Delete this Category?"
-></BsModel>
+<BsModal OnModalConfirmation="ConfirmDelete_Click"
+        ButtonStyle="btn-danger"
+        ButtonText="Delete"
+        Title="Are you sure you want to delete this Category?">
+</BsModal>
 
-@if(IsProcessing ) {
-    <div class="position-absolute w-75 h-75 d-flex flex-column align-items-center justify-content-center">
-        <img src="./images/loading.gif" alt="loading" />
+@if (IsProcessing)
+{
+    <div class="position-absolute w-75 h-75 d-flex flex-column align-items-center bg-white justify-content-center">
+        <img src="/images/loading.gif" alt="loading" />
     </div>
 }
-else {
-    <div class="card border border-1">
-        <div class="card-header bg-black py-1">
-            <h2 class="text-white py-2">Category List</h2>
-        </div>
-    </div>
-
-    <div class="card-body py-2">
-        <div class="row">
-            <div class="text-end">
-                <a href="category/create" class="btn btn-primary" style="width:100px">
-                    <i class="bi bi-plus-square"></i>
-                    New</a>
+else
+{
+    <div class="card shadow border-0 m-4">
+        <div class="card-header bg-black bg-gradient ml-0 py-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="text-white py-2">Category List</h2>
+                </div>
             </div>
         </div>
-    </div>
-
-    @if(Categories.Any())
-    {
-        <div class="table-responsive">
-            <table class="table table-sm-3 table-hover">
-                <thead class="table-primary">
-                    <tr>
-                        <th>Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach(var item in Categories)
-                    {
-                        <tr>
-                            <td>@item.Name</td>
-                            <td>
-                                <a href="@($"/category/update/{item.Id}")" class="btn btn-primary">
-                                    <i class="bi bi-pencil-square"></i>
-                                    Edit
-                                    </a>
-                                <a href="@($"/category/delete/{item.Id}")" class="btn btn-danger" @onclick="()=>HandleDelete(item.Id)">
-                                    <i class="bi bi-trash3"></i>
-                                    Delete
-                                    </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="card-body p-4">
+            <div class="row pb-3">
+                <div class="col-12 text-end">
+                    <a href="category/create" class="btn btn-lg btn-primary">
+                        <i class="bi bi-plus-square"></i> New                    </a>
+                </div>
+            </div>
+            @if (Categories.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-sm-3 table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var obj in Categories)
+                            {
+                                <tr>
+                                    <td>
+                                        @obj.Name
+                                    </td>
+                                    <td>
+                                        <a href="@($"category/update/{obj.Id}")" class="btn btn-primary">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+                                        <button class="btn btn-danger" @onclick="()=>HandleDelete(obj.Id)">
+                                            <i class="bi bi-trash3"></i> Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
         </div>
-    }
+    </div>
 }
 
-
 @code {
-
     private bool IsProcessing { get; set; } = true;
-    private IEnumerable<Category> Categories { get; set; }
-    private int DeleteCategoryId { get; set; } = 0;
-
+    private IEnumerable<Category> Categories { get; set; } = new List<Category>();
+    private int DeleteCategoryID { get; set; } = 0;
+   
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if( firstRender)
+        if (firstRender)
         {
             await LoadCategories();
             IsProcessing = false;
             StateHasChanged();
         }
-        //return  base.OnAfterRenderAsync(firstRender);
+        //return base.OnAfterRenderAsync(firstRender);
     }
 
     private async Task LoadCategories()
     {
-        //Thread.Sleep(1000);
-        Categories = await _categoryRepos.GetAllAsync();
+        Categories= await _categoryRepository.GetAllAsync();
     }
 
     private void HandleDelete(int id)
     {
-        DeleteCategoryId =  id;
-        _JS.InvokeVoidAsync("ShowModal");
+        DeleteCategoryID = id;
+        _JS.InvokeVoidAsync("ShowConfirmationModal");
     }
 
-    private async Task ConfirmDelete_click(bool isConfirmed)
+    private async Task ConfirmDelete_Click(bool isConfirmed)
     {
         IsProcessing = true;
-        await _JS.InvokeVoidAsync("HideModal");
-
-        if(isConfirmed && DeleteCategoryId != 0)
+        await _JS.InvokeVoidAsync("HideConfirmationModal");
+        if(isConfirmed && DeleteCategoryID != 0)
         {
-            var result = await _categoryRepos.DeleteAsync(DeleteCategoryId);
+            var result = await _categoryRepository.DeleteAsync(DeleteCategoryID);
             if(result)
                 _JS?.ToastrSuccess("Category Deleted");
             else
-                _JS?.ToastrError("Error Encountered while trying to Delete.");
+                _JS?.ToastrError("Error encountered while deleting");
 
             await LoadCategories();
         }
-        DeleteCategoryId = 0;
+        DeleteCategoryID = 0;
         IsProcessing = false;
     }
 }

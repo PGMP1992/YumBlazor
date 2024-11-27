@@ -8,10 +8,13 @@ namespace YumBlazor.Repos.Implementation
     public class ProductRepos : IProductRepos
     {
         private readonly ApplicationDbContext _db;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductRepos(ApplicationDbContext db)
+        public ProductRepos(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
+
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<Product> CreateAsync(Product Product)
@@ -23,10 +26,20 @@ namespace YumBlazor.Repos.Implementation
         
         public async Task<bool> DeleteAsync(int id)
         {
-            var Product = await _db.Products.FirstOrDefaultAsync(c => c.Id == id);
-            if (Product != null)
+            var product = await _db.Products.FirstOrDefaultAsync(c => c.Id == id);
+            
+            if (product.ImageUrl != null)
             {
-                _db.Products.Remove(Product);
+                var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImageUrl.TrimStart('/'));
+                if (File.Exists(imagePath))
+                {
+                    File.Delete(imagePath);
+                }
+            }
+
+            if (product != null)
+            {
+                _db.Products.Remove(product);
                 return (await _db.SaveChangesAsync()) > 0;
             }
             return false;
@@ -44,7 +57,7 @@ namespace YumBlazor.Repos.Implementation
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return await _db.Products.ToListAsync();
+            return await _db.Products.Include(u => u.Category).ToListAsync();
         }
 
         public async Task<Product> UpdateAsync(Product Product)
