@@ -95,9 +95,9 @@
             return;
         }
 
-        Logger.LogInformation("User created a new account with password.");
+        Logger.LogInformation("Account created with password.");
 
-        if(Input.Role is not null)
+        if(Input.Role is not null) /* Added ----------------- */
         {
             if( ! await RoleManager.RoleExistsAsync(SD.Role_Customer))
             {
