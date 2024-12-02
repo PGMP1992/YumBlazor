@@ -3,11 +3,11 @@ using YumBlazor.Data;
 
 namespace YumBlazor.Models
 {
-    public class Cart
+    public class ShoppingCart
     {
         public int Id { get; set; }
+        
         public string UserId { get; set; }
-
         [ForeignKey("UserId")]
         public AppUser User { get; set; }
 

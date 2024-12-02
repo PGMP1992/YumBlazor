@@ -2,10 +2,10 @@
 
 namespace YumBlazor.Repos.Interfaces
 {
-    public interface ICartRepos
+    public interface IShoppingCartRepos
     {
         public Task<bool> UpdateCartAsync(string userId, int productId, int updateBy);
-        public Task<IEnumerable<Category>> GetAllAsync(string? userId);
+        public Task<IEnumerable<ShoppingCart>> GetAllAsync(string? userId);
         public Task<bool> ClearCartAsync( string userId);
     }
 }

@@ -21,7 +21,8 @@ builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuth
 //DbSets ---------------------
 builder.Services.AddScoped<ICategoryRepos, CategoryRepos>();
 builder.Services.AddScoped<IProductRepos, ProductRepos>();
-builder.Services.AddScoped<ICartRepos, CartRepos>();
+builder.Services.AddScoped<IShoppingCartRepos, ShoppingCartRepos>();
+builder.Services.AddScoped<ICommon, Common>();
 
 builder.Services.AddAuthentication(options =>
     {

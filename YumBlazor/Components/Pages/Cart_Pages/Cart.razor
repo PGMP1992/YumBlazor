@@ -1,91 +1,133 @@
 ﻿@page "/cart"
 
-<div class="row w-100">
-	<div class="col-lg-6 col-12">
-		<div class="container p-4 m-2">
-			<h4 class="text-center text-success display-6">
-				Cart Summary
-			</h4>
+@using System.Globalization
+@using Microsoft.AspNetCore.Authorization
+@inject IShoppingCartRepos _cartRepos
+@inject AuthenticationStateProvider _AuthenticationStateProvider
+@inject IJSRuntime _JS
+@inject ICommon _Common
 
+@attribute [Authorize]
 
-			<div class="d-flex p-2 m-2">
-				<div class="card flex-row w-100">
-					<img class="card-img-left" style="width: 120px;">
-					<div class="card-body">
-						<div class="d-flex justify-content-between align-items-center">
-							<h4 class="">
-								--ProductName--
-							</h4>
-							<h4>
-								--PRICE--
-							</h4>
-						</div>
-						<div class="flex-fill">
-							<h4 class="text-danger">
-								--COUNT*PRICE--
-							</h4>
-						</div>
-						<div class="d-flex justify-content-between align-items-center">
-							<div class="d-flex justify-content-between g-0">
-								<span>
-									<i class="bi bi-dash-circle-fill btn text-secondary"></i>
-								</span>
-								<span class="ml-1 me-1">
-									<b class="lead">--Count--</b>
-								</span>
-								<span>
-									<i class="bi bi-plus-circle-fill btn text-secondary"></i>
-								</span>
-							</div>
-							<button class="btn btn-danger">Remove</button>
-						</div>
-					</div>
-				</div>
-			</div>
+<PageTitle>Cart</PageTitle>
 
-		</div>
-	</div>
-	<div class="col-lg-6 col-12 p-4">
-		<div class="card">
-			<div class="card-header text-success text-center display-6">
-				Pickup Details
-			</div>
-			<div class="card-body">
-				<form>
-					<div class="form-group">
-						<label>Name</label>
-						<input type="text" class="form-control" />
-					</div>
-					<div class="form-group">
-						<label>Email</label>
-						<input type="text" class="form-control" />
-					</div>
-					<div class="form-group">
-						<label>Phone</label>
-						<input type="text" class="form-control" />
-					</div>
+@if (isProcessing)
+{
+    <div class="position-absolute w-100 vh-100 d-flex flex-column align-items-center bg-white justify-content-center">
+        <img src="/images/loading.gif" alt="loading" />
+    </div>
+}
+else
+{
+    <div class="row w-100">
+        <div class="col-lg-6">
+            <div class="container p-4 m-2">
+                <h4 class="text-center text-success display-6">
+                    Cart Summary
+                </h4>
 
-				</form>
-				<div class="card mt-4 bg-light">
-					<div class="card-body">
-						<h4>
-							Grand Total: --$$--
-						</h4>
-						<h4>
-							No. of Items: --COUNT--
-						</h4>
-					</div>
+                @foreach( var cart in CartList) {
 
-				</div>
-			</div>
+                    <div class="d-flex p-2 m-2">
+                        <div class="card flex-row w-100">
+                            <img class="card-img-left" style="width: 120px;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 class="">
+                                        @cart.Product.Name
+                                    </h4>
+                                    <h4>
+                                        @cart.Product.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"));
+                                    </h4>
+                                </div>
+                                <div class="flex-fill">
+                                    <h4 class="text-danger">
+                                        @((cart.Product.Price * cart.Count).ToString("C", CultureInfo.GetCultureInfo("se-SE")));
+                                    </h4>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex justify-content-between g-0">
+                                        <span>
+                                            <i class="bi bi-dash-circle-fill btn text-secondary"></i>
+                                        </span>
+                                        <span class="ml-1 me-1">
+                                            <b class="lead">@cart.Count</b>
+                                        </span>
+                                        <span>
+                                            <i class="bi bi-plus-circle-fill btn text-secondary"></i>
+                                        </span>
+                                    </div>
+                                    <button class="btn btn-danger">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-lg-6 col-12 p-4">
+            <div class="card">
+                <div class="card-header text-success text-center display-6">
+                    Pickup Details
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" />
+                        </div>
 
-			<button class="btn btn-success m-4">
-				Looks Good? Place Order!
-			</button>
-		</div>
-	</div>
-</div>
+                    </form>
+                    <div class="card mt-4 bg-light">
+                        <div class="card-body">
+                            <h4>
+                                Grand Total: --$$--
+                            </h4>
+                            <h4>
+                                No. of Items: --COUNT--
+                            </h4>
+                        </div>
 
+                    </div>
+                </div>
+
+                <button class="btn btn-success m-4">
+                    Looks Good? Place Order!
+                </button>
+            </div>
+        </div>
+    </div>
+}
 @code {
+    private IEnumerable<ShoppingCart> CartList = new List<ShoppingCart>();
+    private bool isProcessing { get; set; } = true;
+    private string userName { get; set; } = string.Empty;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadShoppingCart();
+            isProcessing = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadShoppingCart()
+    {
+        var user = await _Common.GetUser();
+        CartList = await _cartRepos.GetAllAsync(user);
+        if (CartList is null)
+        {
+            _JS.ToastrError("There are no items in the cart");
+        }
+    }
 }

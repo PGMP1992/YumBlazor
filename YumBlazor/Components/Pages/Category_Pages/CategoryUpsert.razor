@@ -33,20 +33,22 @@ else
                     </div>
                     
                     @* Buttons ------------------ *@
-                    <div class="row ">
-                        <div class="btn-group w-25" role="group">
-                            <button type="submit" class="btn btn-primary mx-1" disabled="@IsProcessing">
-                                <i class="bi bi-floppy2-fill"></i> 
-                                @(Id == 0 ? "Create" : "Update")
-                            </button>
-                            <a href="category" class="btn btn-outline-primary mx-1" disabled="@IsProcessing">
-                                <i class="bi bi-arrow-bar-left"></i> Back
-                            </a>
-                        </div>
+                    <hr />
+                    <div class="d-flex">
+                        <div class="row">
+                            <div class="btn-group " role="group">
+                                <button type="submit" class="btn btn-primary mx-1" disabled="@IsProcessing">
+                                    <i class="bi bi-floppy2-fill"></i> 
+                                    @(Id == 0 ? "Create" : "Update")
+                                </button>
+                                <a href="category" class="btn btn-outline-primary mx-1" disabled="@IsProcessing">
+                                    <i class="bi bi-arrow-bar-left"></i> Back
+                                </a>
+                            </div>
                         </div>
                     </div>
-                
-                
+                </div>
+
             </EditForm>
             
         </div>

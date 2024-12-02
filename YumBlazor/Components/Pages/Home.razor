@@ -2,6 +2,11 @@
 @using System.Globalization
 @inject IProductRepos _prodRepos
 @inject ICategoryRepos _catRepos
+@inject IShoppingCartRepos _cartRepos
+@inject AuthenticationStateProvider _AuthenticationStateProvider
+@inject IJSRuntime _JS
+@inject ICommon _Common
+@inject NavigationManager _NavigationManager
 
 <PageTitle>Home</PageTitle>
 
@@ -19,9 +24,9 @@ else
 
                 <div class="d-flex align-items-center" style="width: 100%;">
                     <input type="text" class="form-control rounded-pill"
-                        @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
-                        placeholder="Search for Food Items!"
-                        style="width: 100%; padding: 20px;">
+                    @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
+                    placeholder="Search for Food Items!"
+                    style="width: 100%; padding: 20px;">
                     <span style="position: relative; left: -43px;"><i class="bi bi-search"></i></span>
                 </div>
             </div>
@@ -36,7 +41,7 @@ else
                 {
                     <li class="nav-item">
                         <span class="nav-link @GetActiveTab(cat.Id)" 
-                            href="#" style="cursor: pointer" @onclick="()=>FilterProducts(cat.Id)">@cat.Name</span>
+                        href="#" style="cursor: pointer" @onclick="()=>FilterProducts(cat.Id)">@cat.Name</span>
                     </li>
                 }
             </ul>
@@ -67,7 +72,9 @@ else
                                 <h5 class="card-title text-center lead text-success">@prod.Name</h5>
                                 <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
                                 <h4 class="text-center">
-                                    <i class="bi bi-cart3 btn btn-success text-right px-5 form-control"> Add to cart</i>
+                                    <div class="m-lg-auto p-2" @onclick="()=>AddOrderItem(prod)">
+                                        <i class="bi bi-cart3 btn btn-success text-right px-5 form-control"> Add to cart</i>
+                                    </div>
                                 </h4>
                             </div>
                         </div>
@@ -136,5 +143,27 @@ else
     private string GetActiveTab( int catId)
     {
         return catId == _selectedCategoryId ? "active" : string.Empty;
+    }
+
+    private async Task AddOrderItem(Product prod)
+    {
+        if (! await _Common.IsUserAuthenticated())
+        {
+            _NavigationManager.NavigateTo("account/login");               
+        } 
+        else
+        {
+            // Add Item to Cart
+            var result = await _cartRepos.UpdateCartAsync(await _Common.GetUser(), prod.Id, 1);
+
+            if(result)
+            {
+                _JS?.ToastrSuccess("Product added to Cart");
+            } else
+            {
+                _JS?.ToastrError("Something went wrong");
+            }
+
+        }
     }
 }

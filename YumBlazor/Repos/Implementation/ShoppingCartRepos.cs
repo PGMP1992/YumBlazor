@@ -5,25 +5,25 @@ using YumBlazor.Repos.Interfaces;
 
 namespace YumBlazor.Repos.Implementation
 {
-    public class CartRepos : ICartRepos
+    public class ShoppingCartRepos : IShoppingCartRepos
     {
         private readonly ApplicationDbContext _db;
 
-        public CartRepos(ApplicationDbContext db)
+        public ShoppingCartRepos(ApplicationDbContext db)
         {
             _db = db;
         }
 
         public async Task<bool> ClearCartAsync(string? userId)
         {
-            var items = await _db.Carts.Where(u => u.UserId == userId).ToListAsync();
-            _db.Carts.RemoveRange(items);
+            var items = await _db.ShoppingCarts.Where(u => u.UserId == userId).ToListAsync();
+            _db.ShoppingCarts.RemoveRange(items);
             return await _db.SaveChangesAsync() > 0;
         }
 
-        public async Task<IEnumerable<Cart>> GetAllAsync(string? userId)
+        public async Task<IEnumerable<ShoppingCart>> GetAllAsync(string? userId)
         {
-            return await _db.Carts.Where(u => u.UserId == userId).Include(u => u.Product).ToListAsync();
+            return await _db.ShoppingCarts.Where(u => u.UserId == userId).Include(u => u.Product).ToListAsync();
         }
 
         public async Task<bool> UpdateCartAsync(string userId, int productId, int updateBy)
@@ -33,16 +33,16 @@ namespace YumBlazor.Repos.Implementation
                 return false;
             }
             
-            var cart = await _db.Carts.FirstOrDefaultAsync(u => u.UserId == userId && u.ProductId == productId);
+            var cart = await _db.ShoppingCarts.FirstOrDefaultAsync(u => u.UserId == userId && u.ProductId == productId);
             if (cart == null)
             {
-                cart = new Cart()
+                cart = new ShoppingCart()
                 {
                     UserId = userId,
                     ProductId = productId,
                     Count = updateBy
                 };
-                await _db.Carts.AddAsync(cart);
+                await _db.ShoppingCarts.AddAsync(cart);
                 
             }
             else
@@ -50,7 +50,7 @@ namespace YumBlazor.Repos.Implementation
                 cart.Count += updateBy;
                 if (cart.Count <= 0)
                 {
-                    _db.Carts.Remove(cart);
+                    _db.ShoppingCarts.Remove(cart);
                 }
             }
             return await _db.SaveChangesAsync() > 0;
