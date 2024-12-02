@@ -5,6 +5,7 @@ namespace YumBlazor.Repos.Interfaces
     public interface ICommon
     {
         Task<bool> IsUserAuthenticated();
-        Task<string> GetUser();
+        Task<string> GetUserId();
+        Task<string> GetUserEmail();
     }
 }

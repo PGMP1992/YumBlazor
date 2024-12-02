@@ -9,6 +9,9 @@ namespace YumBlazor.Data
         public required DbSet<Category> Categories { get; set; }
         public required DbSet<Product> Products { get; set; }
         public required DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public required DbSet<OrderHeader> OrderHeaders { get; set; }
+        public required DbSet<OrderDetail> OrderDetails { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

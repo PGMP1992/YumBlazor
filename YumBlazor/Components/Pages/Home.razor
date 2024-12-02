@@ -60,7 +60,7 @@ else
                                 </div>
                             </div>
                             <div class="text-center">
-                                @if (!string.IsNullOrEmpty(prod.Tag))
+                                @if (!string.IsNullOrEmpty(prod.ImageUrl))
                                 {
                                     <img class="card-img-top img-thumbnail img-rounded w-50 mt-2" src="@prod.ImageUrl" style="">
                                 } else {
@@ -71,11 +71,12 @@ else
                             <div class="card-body">
                                 <h5 class="card-title text-center lead text-success">@prod.Name</h5>
                                 <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
-                                <h4 class="text-center">
+                                
                                     <div class="m-lg-auto p-2" @onclick="()=>AddOrderItem(prod)">
-                                        <i class="bi bi-cart3 btn btn-success text-right px-5 form-control"> Add to cart</i>
+                                        <i class="bi bi-cart3 btn btn-success text-right px-5">
+                                            Add to cart</i>
                                     </div>
-                                </h4>
+                                
                             </div>
                         </div>
                     </div>
@@ -154,7 +155,7 @@ else
         else
         {
             // Add Item to Cart
-            var result = await _cartRepos.UpdateCartAsync(await _Common.GetUser(), prod.Id, 1);
+            var result = await _cartRepos.UpdateCartAsync(await _Common.GetUserId(), prod.Id, 1);
 
             if(result)
             {
