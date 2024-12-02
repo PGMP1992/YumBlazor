@@ -150,7 +150,7 @@ else
     {
         if (! await _Common.IsUserAuthenticated())
         {
-            _NavigationManager.NavigateTo("account/login");               
+            _NavigationManager.NavigateTo($"/account/login");               
         } 
         else
         {

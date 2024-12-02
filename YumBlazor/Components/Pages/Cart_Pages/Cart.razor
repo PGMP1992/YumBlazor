@@ -3,9 +3,12 @@
 @using System.Globalization
 @using Microsoft.AspNetCore.Authorization
 @inject IShoppingCartRepos _cartRepos
+@inject IOrderRepos _orderRepos
 @inject AuthenticationStateProvider _AuthenticationStateProvider
 @inject IJSRuntime _JS
 @inject ICommon _Common
+@inject NavigationManager _NavigationManager
+
 
 @attribute [Authorize]
 
@@ -182,6 +185,12 @@ else
 
     private async Task ProcessOrderCreation ()
     {
-        
+        isProcessing = true;
+        await Task.Yield();
+        OrderHeader.OrderDetails = SD.ConvertToCart(CartList.ToList());
+
+        _orderRepos.CreateAsync(OrderHeader);
+        _NavigationManager.NavigateTo($"/order/confirmation/{OrderHeader.Id}");
+
     }
 }

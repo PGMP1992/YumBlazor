@@ -1,0 +1,118 @@
+﻿@page "/order/list"
+@using System.Globalization
+@using Microsoft.AspNetCore.Authorization
+@inject IOrderRepos _orderRepos
+@inject IJSRuntime _JS
+@inject NavigationManager _NavigationManager
+@inject ICommon _Common
+@attribute [Authorize]
+
+@if (IsProcessing)
+{
+    <div class="position-absolute w-100 h-100 d-flex flex-column align-items-center bg-white justify-content-center">
+        <img src="/images/loading.gif" alt="loading" />
+    </div>
+}
+else
+{
+    <div class="card shadow border-0 m-4">
+        <div class="card-header bg-black bg-gradient ml-0 py-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="text-white py-2">Order List</h2>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-4">
+
+            @if (Orders.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-sm-3 table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var obj in Orders)
+                            {
+                                <tr>
+                                    <td>@obj.Id</td>
+                                    <td>@obj.Name</td>
+                                    <td>@obj.Email</td>
+                                    <td>@obj.Total.ToString("C", CultureInfo.GetCultureInfo("se-SE"))</td>
+                                    <td>@obj.Status</td>
+                                    <td>
+                                        <a href="@($"order/details/{obj.Id}")" class="btn btn-primary">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private bool IsProcessing { get; set; } = true;
+    private IEnumerable<OrderHeader> Orders { get; set; } = new List<OrderHeader>();
+    private bool? IsAdmin { get; set; }
+    private string? UserId { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> _authenticationState { get; set; }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadOrders();
+            IsProcessing = false;
+            StateHasChanged();
+        }
+        //return base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task LoadOrders()
+    {
+        IsProcessing = true;
+        StateHasChanged();
+
+        await CheckAuthorization();
+
+        if (IsAdmin == true)
+        {
+            Orders = await _orderRepos.GetAllAsync();
+        }
+        else
+        {
+            Orders = await _orderRepos.GetAllAsync(UserId);
+        }
+    }
+
+
+    private async Task CheckAuthorization()
+    {
+        if (_authenticationState is not null)
+        {
+            var authState = await _authenticationState;
+            var user = authState?.User;
+
+            IsAdmin = user?.IsInRole(SD.Role_Admin);
+            UserId = await _Common.GetUserId();
+        }
+    }
+      
+}
