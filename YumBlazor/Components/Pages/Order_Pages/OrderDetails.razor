@@ -1,8 +1,8 @@
 ﻿@page "/order/details/{Id:int}"
 @using System.Globalization
-
 @inject IOrderRepos _orderRepos
 @inject IJSRuntime _JS
+@inject AuthenticationStateProvider _AuthenticationStateProvider
 
 @if (IsProcessing)
 {
@@ -59,17 +59,19 @@ else
                     </div>
                     <div class="col-7 text-end">
                         @if (OrderHeader.Status != SD.StatusCancelled &&
-                           OrderHeader.Status != SD.StatusCancelled)
+                            OrderHeader.Status != SD.StatusCompleted &&
+                            _AuthenticationStateProvider.GetAuthenticationStateAsync().GetAwaiter().GetResult().User?.IsInRole(SD.Role_Admin) == true
+                        )
                         {
-                            <button class="btn btn-danger m-2 p-2" onclick="()=>UpdateStatus(SD.StatusCancelled)" style="width:150px;">Cancelled</button>
+                            <button class="btn btn-danger m-2 p-2" @onclick="()=>UpdateStatus(SD.StatusCancelled)" style="width:150px;">Cancel</button>
                             
-                            @if (OrderHeader.Status == SD.StatusPending)
+                            @if (OrderHeader.Status == SD.StatusApproved)
                             {
-                                <button class="btn btn-primary m-2 p-2" onclick="()=>UpdateStatus(SD.StatusCancelled)" style="width:150px;">Ready for Pickup</button>
+                                <button class="btn btn-primary m-2 p-2" @onclick="()=>UpdateStatus(SD.StatusReadyForPickUp)" style="width:150px;">Ready for Pickup</button>
                             }
                             @if (OrderHeader.Status == SD.StatusReadyForPickUp)
                             {
-                                <button class="btn btn-success m-2 p-2" onclick="()=>UpdateStatus(SD.StatusCancelled)" style="width:150px;">Completed</button>
+                                <button class="btn btn-success m-2 p-2" @onclick="()=>UpdateStatus(SD.StatusCompleted)" style="width:150px;">Completed</button>
                             }
                         }
                     </div>
@@ -106,7 +108,7 @@ else
         OrderHeader = await _orderRepos.GetAsync(Id);
     }
 
-    private async Task UpdateStatus(int Id, string newStatus)
+    private async Task UpdateStatus(string newStatus)
     {
         await _orderRepos.UpdateStatusAsync(Id, newStatus);
         _JS?.ToastrSuccess("Status updated to " + newStatus);

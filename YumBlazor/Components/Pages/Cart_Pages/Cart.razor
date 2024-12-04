@@ -2,13 +2,14 @@
 
 @using System.Globalization
 @using Microsoft.AspNetCore.Authorization
+@using YumBlazor.Services
 @inject IShoppingCartRepos _cartRepos
 @inject IOrderRepos _orderRepos
 @inject AuthenticationStateProvider _AuthenticationStateProvider
 @inject IJSRuntime _JS
 @inject ICommon _Common
 @inject NavigationManager _NavigationManager
-
+@inject SharedStateService _SharedStateService
 
 @attribute [Authorize]
 
@@ -148,7 +149,6 @@ else
         OrderHeader.Email = await _Common.GetUserEmail();
         OrderHeader.UserId = await _Common.GetUserId();
         OrderHeader.Status = SD.StatusPending;
-
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -180,6 +180,7 @@ else
     {
         // Add Item to Cart
         var result = await _cartRepos.UpdateCartAsync(OrderHeader.UserId, prodId, updateBy);
+        _SharedStateService.CartCount = await _cartRepos.GetTotalCartAsync(OrderHeader.UserId);
         await LoadShoppingCart();
     }
 
@@ -189,8 +190,7 @@ else
         await Task.Yield();
         OrderHeader.OrderDetails = SD.ConvertToCart(CartList.ToList());
 
-        _orderRepos.CreateAsync(OrderHeader);
+        await _orderRepos.CreateAsync(OrderHeader);
         _NavigationManager.NavigateTo($"/order/confirmation/{OrderHeader.Id}");
-
     }
 }

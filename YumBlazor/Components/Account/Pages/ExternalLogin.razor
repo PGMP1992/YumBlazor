@@ -146,6 +146,7 @@
         var result = await UserManager.CreateAsync(user);
         if (result.Succeeded)
         {
+            await UserManager.AddToRoleAsync(user, SD.Role_Customer); // External login 
             result = await UserManager.AddLoginAsync(user, externalLoginInfo);
             if (result.Succeeded)
             {
