@@ -2,12 +2,17 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
+using Stripe;
+using System.Globalization;
 using YumBlazor.Components;
 using YumBlazor.Components.Account;
 using YumBlazor.Data;
 using YumBlazor.Repos.Implementation;
 using YumBlazor.Repos.Interfaces;
 using YumBlazor.Services;
+
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("se-SE");
+CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("se-SE");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +30,10 @@ builder.Services.AddScoped<ICategoryRepos, CategoryRepos>();
 builder.Services.AddScoped<IProductRepos, ProductRepos>();
 builder.Services.AddScoped<IShoppingCartRepos, ShoppingCartRepos>();
 builder.Services.AddScoped<IOrderRepos, OrderRepos>();
+// Utilities - Services 
 builder.Services.AddScoped<ICommon, Common>();
 builder.Services.AddSingleton<SharedStateService>();
+builder.Services.AddScoped<PaymentService>();
 
 builder.Services.AddRadzenComponents();
 
@@ -55,7 +62,7 @@ builder.Services.AddAuthentication(options =>
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString), ServiceLifetime.Transient);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -67,6 +74,8 @@ builder.Services.AddIdentityCore<AppUser>(options => options.SignIn.RequireConfi
 builder.Services.AddSingleton<IEmailSender<AppUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
+
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("StripeApiKey").Value;
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -36,15 +36,25 @@ namespace YumBlazor.Repos.Implementation
             return await _db.OrderHeaders.Include(u => u.OrderDetails).FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<OrderHeader> UpdateStatusAsync(int id, string status)
+        public async Task<OrderHeader> UpdateStatusAsync(int id, string status, string paymentIntentId)
         {
             var orderHeader = await _db.OrderHeaders.FirstOrDefaultAsync(u => u.Id == id);
             if (orderHeader != null)
             {
                 orderHeader.Status = status;
+                if (!string.IsNullOrEmpty(paymentIntentId))
+                {
+                    orderHeader.PaymentIntentId = paymentIntentId;
+                }
+
                 await _db.SaveChangesAsync();
             }
             return orderHeader;
+        }
+
+        public async Task<OrderHeader> GetOrderBySessionIdAsync(string sessionId)
+        {
+            return await _db.OrderHeaders.FirstOrDefaultAsync(u => u.SessionId == sessionId);
         }
     }
 }

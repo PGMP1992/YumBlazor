@@ -20,11 +20,11 @@ else
 
             <hr />
             <div class="px-3">
-                <p>Order Id: @OrderHeader.Id</p>
-                <p>Name: @OrderHeader.Name</p>
-                <p>Email: @OrderHeader.Email</p>
-                <p>Phone: @OrderHeader.PhoneNumber</p>
-                <p>Order Status: @OrderHeader.Status</p>
+                <p>Order Id: <b>@OrderHeader.Id</b></p>
+                <p>Name: <b>@OrderHeader.Name</b></p>
+                <p>Email: <b>@OrderHeader.Email</b></p>
+                <p>Phone: <b>@OrderHeader.PhoneNumber</b></p>
+                <p>Order Status: <b>@OrderHeader.Status</b></p>
             </div>
             <hr />
             <div class="card-body">
@@ -38,18 +38,15 @@ else
                                 &nbsp; -- @order.ProductName
                             </p>
                             <p>
-                                @order.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE")) x @order.Count = 
+                                @order.Price.ToString("C") x @order.Count = <b>@((order.Price * @order.Count).ToString("C"))</b>
                             </p>
-                        </div>
-                        <div class="ps-4">
-                            @((order.Price * @order.Count).ToString("C", CultureInfo.GetCultureInfo("se-SE")))
                         </div>
                     </div>
                 }
 
                 <hr />
                 <h4 class="text-success text-end">
-                    @OrderHeader.Total.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
+                    @OrderHeader.Total.ToString("C")
                 </h4>
                 <hr />
 
@@ -63,7 +60,7 @@ else
                             _AuthenticationStateProvider.GetAuthenticationStateAsync().GetAwaiter().GetResult().User?.IsInRole(SD.Role_Admin) == true
                         )
                         {
-                            <button class="btn btn-danger m-2 p-2" @onclick="()=>UpdateStatus(SD.StatusCancelled)" style="width:150px;">Cancel</button>
+                            <button class="btn btn-danger m-2 p-2" @onclick="()=>UpdateStatus(SD.StatusCancelled)" style="width:150px;">Cancel Order</button>
                             
                             @if (OrderHeader.Status == SD.StatusApproved)
                             {
@@ -110,7 +107,7 @@ else
 
     private async Task UpdateStatus(string newStatus)
     {
-        await _orderRepos.UpdateStatusAsync(Id, newStatus);
+        await _orderRepos.UpdateStatusAsync(Id, newStatus, "");
         _JS?.ToastrSuccess("Status updated to " + newStatus);
     }
 

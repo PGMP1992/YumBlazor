@@ -6,7 +6,8 @@ namespace YumBlazor.Repos.Interfaces
     {
         Task<OrderHeader> CreateAsync(OrderHeader orderHeader);
         Task<OrderHeader> GetAsync(int id);
+        Task<OrderHeader> GetOrderBySessionIdAsync(string sessionId);
         Task<IEnumerable<OrderHeader>> GetAllAsync(string? userId=null);
-        Task<OrderHeader> UpdateStatusAsync(int id, string status);        
+        Task<OrderHeader> UpdateStatusAsync(int id, string status, string paymentIntentId);        
     }
 }

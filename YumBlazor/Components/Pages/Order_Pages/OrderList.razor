@@ -15,7 +15,7 @@
 }
 else
 {
-    <div class="card shadow border-0 m-4">
+    <div class="card border-1 m-4">
         <div class="card-header bg-black bg-gradient ml-0 py-3">
             <div class="row">
                 <div class="col-12 text-center">
@@ -28,12 +28,11 @@ else
             @if (Orders.Any())
             {
                 <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced"
-                                AllowSorting="true" PageSize="3" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+                                AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
                                 ShowPagingSummary="true" Data="@Orders" ColumnWidth="300px"
                                 LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
                     <Columns>
                         <RadzenDataGridColumn Property="Id" Filterable="true" Title="ID" Frozen="true" Width="80px" />
-
                         <RadzenDataGridColumn Property="Name" Title="Name" Frozen="true" Width="120px" />
                         <RadzenDataGridColumn Property="PhoneNumber" Title="Phone Number" Width="120px" />
                         <RadzenDataGridColumn Property="Email" Title="Email" Width="200px" />

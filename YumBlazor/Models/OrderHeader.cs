@@ -33,6 +33,10 @@ namespace YumBlazor.Models
         [MaxLength(50)]
         public string Email { get; set; }
 
+        //Stripe Fields 
+        public string? SessionId { get; set; } = string.Empty;
+        public string? PaymentIntentId { get; set; } = string.Empty;
+        
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
 }

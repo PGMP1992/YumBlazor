@@ -15,59 +15,64 @@
     </div>
 }
 else {
-    <div class="card border border-1">
-        <div class="card-header bg-black py-1">
-            <h2 class="text-white py-2">Product List</h2>
-        </div>
-    </div>
-
-    <div class="card-body py-2">
-        <div class="row">
-            <div class="text-end">
-                <a href="Product/create" class="btn btn-primary" style="width:100px">
-                    <i class="bi bi-plus-square"></i>
-                    New</a>
+    <div class="card border-1 m-4">
+        <div class="card-header bg-black bg-gradient ml-0 py-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="text-white py-2">Product List</h2>
+                </div>
             </div>
         </div>
-    </div>
 
-    @if(Products.Any())
-    {
-        <div class="table-responsive">
-            <table class="table table-sm-3 table-hover">
-                <thead class="table-primary">
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Special Tag</th>
-                        <th>Category</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach(var item in Products)
-                    {
+        <div class="card-body p-4">
+            <div class="row pb-3">
+                <div class="text-end">
+                    <a href="Product/create" class="btn btn-primary" style="width:100px">
+                        <i class="bi bi-plus-square"></i>
+                        New</a>
+                </div>
+            </div>
+    
+
+        @if(Products.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-sm-3 table-hover">
+                    <thead class="table-primary">
                         <tr>
-                            <td>@item.Name</td>
-                            <td>@item.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))</td>
-                            <td><span class="badge text-bg-info"></span>@item.Tag</td>
-                            <td>@item.Category.Name</td>
-                            <td>
-                                <a href="@($"/Product/update/{item.Id}")" class="btn btn-primary">
-                                    <i class="bi bi-pencil-square"></i>
-                                    Edit
-                                </a>
-                                <button class="btn btn-danger" @onclick="()=>HandleDelete(item.Id)">
-                                    <i class="bi bi-trash3"></i>
-                                    Delete
-                                </button>
-                            </td>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Special Tag</th>
+                            <th>Category</th>
+                            <th></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Products)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Price.ToString("C")</td>
+                                <td><span class="badge text-bg-info"></span>@item.Tag</td>
+                                <td>@item.Category.Name</td>
+                                <td>
+                                    <a href="@($"/Product/update/{item.Id}")" class="btn btn-primary">
+                                        <i class="bi bi-pencil-square"></i>
+                                        Edit
+                                    </a>
+                                    <button class="btn btn-danger" @onclick="()=>HandleDelete(item.Id)">
+                                        <i class="bi bi-trash3"></i>
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
 }
 
 
@@ -111,7 +116,7 @@ else {
             if(result)
                 _JS?.ToastrSuccess("Product Deleted");
             else
-                _JS?.ToastrError("Error Encountered while trying to Delete.");
+                _JS?.ToastrError("Error while trying to Delete.");
 
             await LoadProducts();
         }

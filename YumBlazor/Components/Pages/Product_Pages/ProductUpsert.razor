@@ -35,7 +35,7 @@ else
                     <div class="form-floating py-3 col-12">
                        @*  <label for="Description">Description</label>
  *@                        <RadzenHtmlEditor @bind-Value=@Product.Description style="height: 450px;" >
-                            @* <RadzenHtmlEditorUndo />
+                            <RadzenHtmlEditorUndo />
                             <RadzenHtmlEditorRedo />
                             <RadzenHtmlEditorSeparator />
                             <RadzenHtmlEditorBold />
@@ -45,7 +45,7 @@ else
                             <RadzenHtmlEditorSeparator />
                             <RadzenHtmlEditorColor />
                             <RadzenHtmlEditorBackground />
-                            <RadzenHtmlEditorRemoveFormat /> *@
+                            <RadzenHtmlEditorRemoveFormat />
                         </RadzenHtmlEditor>
                         <ValidationMessage For="@(() => Product.Description)" />
                     </div>
@@ -161,13 +161,13 @@ else
         {
             //create
             await _productRepository.CreateAsync(Product);
-            await _JS.ToastrSuccess("Product Created Successfully");
+            await _JS.ToastrSuccess("Product Created");
         }
         else
         {
             //update
             await _productRepository.UpdateAsync(Product);
-            await _JS.ToastrSuccess("Product Updated Successfully");
+            await _JS.ToastrSuccess("Product Updated");
         }
         IsProcessing = false;
         _navigationManager.NavigateTo("product");

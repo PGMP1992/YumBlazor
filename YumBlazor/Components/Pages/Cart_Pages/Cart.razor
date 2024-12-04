@@ -10,6 +10,7 @@
 @inject ICommon _Common
 @inject NavigationManager _NavigationManager
 @inject SharedStateService _SharedStateService
+@inject PaymentService _paymentService
 
 @attribute [Authorize]
 
@@ -190,7 +191,10 @@ else
         await Task.Yield();
         OrderHeader.OrderDetails = SD.ConvertToCart(CartList.ToList());
 
+        var session = _paymentService.CreateStripeCheckoutSession(OrderHeader);
+        OrderHeader.SessionId = session.Id;
+
         await _orderRepos.CreateAsync(OrderHeader);
-        _NavigationManager.NavigateTo($"/order/confirmation/{OrderHeader.Id}");
+        _NavigationManager.NavigateTo(session.Url);
     }
 }
