@@ -26,9 +26,9 @@ else
 
                 <div class="d-flex align-items-center" style="width: 100%;">
                     <input type="text" class="form-control rounded-pill"
-                    @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
-                    placeholder="Search for Food Items!"
-                    style="width: 100%; padding: 20px;">
+                        @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
+                        placeholder="Search for Food Items!"
+                        style="width: 100%; padding: 20px;">
                     <span style="position: relative; left: -43px;"><i class="bi bi-search"></i></span>
                 </div>
             </div>
@@ -47,8 +47,10 @@ else
                     </li>
                 }
             </ul>
+
             <div class="row mt-4 mx-1">
-                @foreach( var prod in FilteredProducts) { 
+                @foreach( var prod in FilteredProducts) 
+                { 
                     <div class="col-12 col-md-6 col-lg-4 pe-3 mb-5">
                         <div class="card">
                             <div class="mt-3 mb-2 row">
@@ -68,8 +70,8 @@ else
                                 } else {
                                     <img class="card-img-top img-thumbnail img-rounded w-50 mt-2" src="images/default.png" style="">
                                 }
-
                             </div>
+                            
                             <div class="card-body">
                                 <h5 class="card-title text-center lead text-success">@prod.Name</h5>
                                 <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
@@ -78,7 +80,6 @@ else
                                     <i class="bi bi-cart3 btn btn-success text-right px-5">
                                         Add to cart</i>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -90,9 +91,7 @@ else
 
 @code {
     private IEnumerable<Product> Products = new List<Product>();
-
     private IEnumerable<Category> Categories = new List<Category>();
-
     private IEnumerable<Product> FilteredProducts = new List<Product>();
 
     private bool isProcessing { get; set; } = true;
@@ -169,8 +168,6 @@ else
             {
                 _JS?.ToastrError("Something went wrong");
             }
-
         }
     }
-    
 }

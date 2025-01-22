@@ -74,6 +74,7 @@
 
     [SupplyParameterFromForm]
     private InputModel Input { get; set; } = new();
+    private ApplicationDbContext _db;
 
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
@@ -97,23 +98,23 @@
 
         Logger.LogInformation("Account created with password.");
 
-        // if(Input.Role is not null) /* Added ----------------- */
-        // {
-            if( ! await RoleManager.RoleExistsAsync(SD.Role_Customer))
-            {
-                await RoleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
-                await RoleManager.CreateAsync(new IdentityRole(SD.Role_Customer));
-            }
+        //  if(Input.Role is not null) /* Added ----------------- */
+        //  {
+        //     if( ! await RoleManager.RoleExistsAsync(SD.Role_Customer))
+        //     {
+        //         await RoleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
+        //         await RoleManager.CreateAsync(new IdentityRole(SD.Role_Customer));
+        //     }
             
-            // if (Input.Role is not null)
-            // {
-            //     await UserManager.AddToRoleAsync(user, Input.Role);
-            // }
-            // else
-            // {
-                await UserManager.AddToRoleAsync(user, SD.Role_Customer);
-            //}
-        //}
+        //     if (Input.Role is not null)
+        //     {
+        //         await UserManager.AddToRoleAsync(user, Input.Role);
+        //     }
+        //     else
+        //     {
+        //         await UserManager.AddToRoleAsync(user, SD.Role_Customer);
+        //     }
+        // }
 
         var userId = await UserManager.GetUserIdAsync(user);
         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
@@ -175,6 +176,6 @@
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = "";
 
-        //public string? Role { get; set; }
+        // public string? Role { get; set; }
     }
 }

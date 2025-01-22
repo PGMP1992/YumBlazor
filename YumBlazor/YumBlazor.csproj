@@ -4,7 +4,10 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-YumBlazor-258a1bd0-c8ae-4e53-bab2-c43b18c3c675</UserSecretsId>
+    <!--<UserSecretsId>aspnet-YumBlazor-258a1bd0-c8ae-4e53-bab2-c43b18c3c675</UserSecretsId>-->
+	  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+	  <ServerGarbageCollection>false</ServerGarbageCollection>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,8 +15,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0-rc.2.24474.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-rc.2.24474.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-rc.2.24474.1" />
-    <PackageReference Include="Radzen.Blazor" Version="5.6.10" />
-    <PackageReference Include="Stripe.net" Version="47.1.0" />
+    <PackageReference Include="Radzen.Blazor" Version="5.7.10" />
+    <PackageReference Include="Stripe.net" Version="47.2.0" />
   </ItemGroup>
 
   <ItemGroup>

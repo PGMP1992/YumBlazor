@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Stripe.Checkout;
-using Stripe.Issuing;
 using YumBlazor.Models;
 using YumBlazor.Repos.Interfaces;
 using YumBlazor.Utility;
@@ -11,14 +10,14 @@ namespace YumBlazor.Services
     {
         private readonly NavigationManager _navigationManager;
         private readonly IOrderRepos _orderRepos;
-        
+
         public PaymentService(NavigationManager navigationManager, IOrderRepos orderRepos)
         {
             _navigationManager = navigationManager;
-            _orderRepos = orderRepos;   
+            _orderRepos = orderRepos;
         }
 
-        public Session CreateStripeCheckoutSession( OrderHeader orderHeader)
+        public Session CreateStripeCheckoutSession(OrderHeader orderHeader)
         {
             var lineItems = orderHeader.OrderDetails
                 .Select(order => new SessionLineItemOptions
@@ -43,26 +42,22 @@ namespace YumBlazor.Services
                 Mode = "payment",
             };
 
-            
-
             var service = new SessionService();
             var session = service.Create(option);
             return session;
         }
 
-        public async Task<OrderHeader> CheckPaymentStatusAndUpdateOrder (string sessionId)
+        public async Task<OrderHeader> CheckPaymentStatusAndUpdateOrder(string sessionId)
         {
-            OrderHeader orderHeader = await _orderRepos.GetOrderBySessionIdAsync( sessionId );
+            OrderHeader orderHeader = await _orderRepos.GetOrderBySessionIdAsync(sessionId);
             var service = new SessionService();
-            var session = service.Get( sessionId );
-            
+            var session = service.Get(sessionId);
+
             if (session.PaymentStatus.ToLower() == "paid")
             {
-                await _orderRepos.UpdateStatusAsync(orderHeader.Id, SD.StatusApproved , session.PaymentIntentId);
+                await _orderRepos.UpdateStatusAsync(orderHeader.Id, SD.StatusApproved, session.PaymentIntentId);
             }
             return orderHeader;
-
         }
-
     }
 }

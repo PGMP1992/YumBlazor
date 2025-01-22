@@ -7,6 +7,7 @@ using System.Globalization;
 using YumBlazor.Components;
 using YumBlazor.Components.Account;
 using YumBlazor.Data;
+using YumBlazor.Data.DbInitializer;
 using YumBlazor.Repos.Implementation;
 using YumBlazor.Repos.Interfaces;
 using YumBlazor.Services;
@@ -32,6 +33,7 @@ builder.Services.AddScoped<IShoppingCartRepos, ShoppingCartRepos>();
 builder.Services.AddScoped<IOrderRepos, OrderRepos>();
 // Utilities - Services 
 builder.Services.AddScoped<ICommon, Common>();
+
 builder.Services.AddSingleton<SharedStateService>();
 builder.Services.AddScoped<PaymentService>();
 
@@ -42,24 +44,24 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
-    // .AddFacebook(options =>
-    // {
-    //     options.AppId = "1160092848406864";
-    //     options.AppSecret = "a5313a1337e6d9f137b37ed2a4f7cc45";
-    // })
-    //.AddMicrosoftAccount(options =>
-    //{
-    //    options.ClientId = "0b170a00-4d7f-4eaf-8235-523dddedfec7";
-    //    options.ClientSecret = "2Na8Q~y8yNpt9iB0kZTyJj22fojeyzsrCbQPma0D";
-    //})
-    //.AddGoogle(options =>
-    //{
-    //    options.ClientId = "602908572279-8dcb674plmqg25evmb0c20fo2naru06u.apps.googleusercontent.com";
-    //    options.ClientSecret = "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";
-    //})
+// .AddFacebook(options =>
+// {
+//     options.AppId = "1160092848406864";
+//     options.AppSecret = "a5313a1337e6d9f137b37ed2a4f7cc45";
+// })
+//.AddMicrosoftAccount(options =>
+//{
+//    options.ClientId = "0b170a00-4d7f-4eaf-8235-523dddedfec7";
+//    options.ClientSecret = "2Na8Q~y8yNpt9iB0kZTyJj22fojeyzsrCbQPma0D";
+//})
+//.AddGoogle(options =>
+//{
+//    options.ClientId = "602908572279-8dcb674plmqg25evmb0c20fo2naru06u.apps.googleusercontent.com";
+//    options.ClientSecret = "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";
+//})
 .AddIdentityCookies();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString), ServiceLifetime.Transient);
@@ -71,6 +73,7 @@ builder.Services.AddIdentityCore<AppUser>(options => options.SignIn.RequireConfi
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddSingleton<IEmailSender<AppUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
@@ -99,5 +102,21 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
-
+SeedDatabase();
 app.Run();
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        try
+        {
+            var DbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+            DbInitializer.Initialize();
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+    }
+}

@@ -129,9 +129,9 @@ else
         {
             var authState = await _authenticationState;
             var user = authState?.User;
-
-            IsAdmin = user?.IsInRole(SD.Role_Admin);
+                        
             UserId = await _Common.GetUserId();
+            IsAdmin = user?.IsInRole(SD.Role_Admin);
         }
     }
       
