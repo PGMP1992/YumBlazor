@@ -46,17 +46,18 @@ namespace YumBlazor.Data.DbInitializer
             }
 
             // Create Admin User
-            _userManager.CreateAsync(new AppUser()
+            var result = _userManager.CreateAsync(new AppUser()
             {
                 UserName = admin,
                 Email = admin,
                 PhoneNumber = "+46 (0) 12345678",
-
             }, pass).GetAwaiter().GetResult();
 
-            AppUser user = _db.Users.FirstOrDefault(u => u.Email == admin);
-            _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
-            return;
+            if (result.Succeeded)
+            {
+                AppUser user = _userManager.FindByEmailAsync(admin).GetAwaiter().GetResult();
+                _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
+            }
         }
     }
 }

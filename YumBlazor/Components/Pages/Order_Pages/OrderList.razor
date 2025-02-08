@@ -32,14 +32,14 @@ else
                                 ShowPagingSummary="true" Data="@Orders" ColumnWidth="300px"
                                 LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
                     <Columns>
-                        <RadzenDataGridColumn Property="Id" Filterable="true" Title="ID" Frozen="true" Width="80px" />
-                        <RadzenDataGridColumn Property="Name" Title="Name" Frozen="true" Width="120px" />
+                        <RadzenDataGridColumn Property="Id" Filterable="true" Title="ID" Frozen="true" Width="50px" />
+                        <RadzenDataGridColumn Property="Name" Title="Name" Frozen="false" Width="120px" />
                         <RadzenDataGridColumn Property="PhoneNumber" Title="Phone Number" Width="120px" />
                         <RadzenDataGridColumn Property="Email" Title="Email" Width="200px" />
                         <RadzenDataGridColumn Property="Total" Title="Order Total" FormatString="{0:C}" Width="120px" />
                         <RadzenDataGridColumn Property="OrderDate" Title="Order Date" FormatString="{0:d}" Width="160px" />
                         <RadzenDataGridColumn Property="Status" Title="Status" Width="160px" />
-                        <RadzenDataGridColumn Title="Action" Sortable="false" Filterable="false" Width="80px" TextAlign="TextAlign.Center">
+                        <RadzenDataGridColumn Title="Action" Sortable="true" Filterable="true" Width="80px" TextAlign="TextAlign.Center">
                             <Template Context="Orders">
                                 <RadzenButton Shade="Shade.Lighter" Text="Details" ButtonStyle="ButtonStyle.Primary"
                                               Click="@(()=>_NavigationManager.NavigateTo($"order/details/{Orders.Id}"))"></RadzenButton>
