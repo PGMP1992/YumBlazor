@@ -9,10 +9,12 @@
     </AuthorizeView>
 
     <main>
-        @if (_navBarVisible) {
+       @if (_navBarVisible) {
             <NavBar></NavBar>
         }
+        <ErrorBoundary> @* Let's see what this does *@
         @Body
+        </ErrorBoundary>
     </main>
 </div>
 

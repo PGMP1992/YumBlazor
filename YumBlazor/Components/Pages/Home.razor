@@ -9,6 +9,7 @@
 @inject ICommon _Common
 @inject NavigationManager _NavigationManager
 @inject SharedStateService _SharedStateService
+@inject NotificationService NotificationService
 
 <PageTitle>Home</PageTitle>
 
@@ -21,43 +22,54 @@
 else
 {
     <div class="container-fluid px-0 m-0 full-width">
-        @* <div class="jumbotron-custom"> *@
-            <div class="m-auto d-flex align-items-center mt-4" style="width: 400px;">
-
-                <div class="d-flex align-items-center" style="width: 100%;">
+        <div class="bg-secondary py-4">
+            <div class="m-auto d-flex align-items-center" style="width: 400px;">
+                <div class="input-group">
                     <input type="text" class="form-control rounded-pill"
-                        @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
-                        placeholder="Search for Food Items!"
-                        style="width: 100%; padding: 20px;">
-                    <span style="position: relative; left: -43px;"><i class="bi bi-search"></i></span>
+                           @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
+                           placeholder="Search for Food!"
+                           style="padding: 20px;">
+                    <button class="btn btn-outline-secondary rounded-pill" type="button" @onclick="ClearSearch">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                    <span class="input-group-text bg-transparent border-0" style="position: relative; left: -43px;">
+                        <i class="bi bi-search"></i>
+                    </span>
                 </div>
             </div>
-        @* </div> *@
+        </div>
 
-        <div class="content px-4 m-2">
+        <div class="content h-100 px-3 mt-2">
+            
             @* Categories ------------------------- *@
-            <ul class="nav nav-underline justify-content-center mb-2">
+            <ul class="nav nav-item justify-content-center mb-3">
                 <li class="nav-item">
                     <span class="nav-link @GetActiveTab(0)" href="#" style="cursor: pointer" @onclick="()=>FilterProducts(0)">All</span>
                 </li>
                 @foreach (var cat in Categories)
                 {
                     <li class="nav-item">
-                        <span class="nav-link @GetActiveTab(cat.Id)" 
-                        href="#" style="cursor: pointer" @onclick="()=>FilterProducts(cat.Id)">@cat.Name</span>
+                        <span class="nav-link @GetActiveTab(cat.Id)"
+                              href="#" style="cursor: pointer" @onclick="()=>FilterProducts(cat.Id)">@cat.Name</span>
                     </li>
                 }
             </ul>
+
             @* Products ---------------------------- *@
-            <div class="row mt-4 mx-1">
-                @foreach( var prod in FilteredProducts) 
-                { 
-                    <div class="col-12 col-md-6 col-lg-2 pe-2 mb-5">
-                        <div class="card">
+            <div class="row mt-4 mx-0">
+                @foreach (var prod in FilteredProducts)
+                {
+                    <div class="col-md-6 col-lg-2 g-3">
+                        <div class="card h-100 border-0 shadow-sm p-3 bg-transparent">
                             <div class="card-top mt-3 mb-2 row">
-                                <div class="col-6 px-3">
-                                    @if( ! string.IsNullOrEmpty(prod.Tag)) {
-                                        <i class="bi bi-star btn btn-success disabled"> @prod.Tag</i>
+                                <div class="col-6">
+                                    @if (!string.IsNullOrEmpty(prod.Tag))
+                                    {
+                                        <div class="btn btn-outline-success disabled">
+                                            <i class="bi bi-star">
+                                                @prod.Tag
+                                            </i>
+                                        </div>
                                     }
                                 </div>
                                 <div class="col-6 text-end text-danger px-3 h5">
@@ -67,24 +79,21 @@ else
                             <div class="text-center">
                                 @if (!string.IsNullOrEmpty(prod.ImageUrl))
                                 {
-                                    <img class="card-img-top img-thumbnail mt-2" src="@prod.ImageUrl" style="">
-                                } else {
-                                    <img class="card-img-top img-thumbnail mt-2" src="images/default.png" style="">
+                                    <img class="card-img-top img-thumbnail border-0 mt-2" src="@prod.ImageUrl" >
+                                }
+                                else
+                                {
+                                    <img class="card-img-top img-thumbnail border-0 mt-2" src="images/default.png" style="max-height: 200px; object-fit: cover;">
                                 }
                             </div>
-                            
+
                             <div class="card-body">
                                 <h5 class="card-title text-center lead text-success">@prod.Name</h5>
                                 <p class="text-danger text-center mt-2"><b>@prod.Category.Name</b></p>
-                                <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
-
-                                @* <div class="m-lg-auto p-2" @onclick="()=>AddOrderItem(prod)">
-                                    <i class="bi bi-cart3 btn btn-success text-right px-5">
-                                        Add to cart</i>
-                                </div> *@
+                                @* <p class="card-text mt-2">@((MarkupString)@prod.Description)</p> *@
                             </div>
-                            <div class="card-footer m-lg-auto p-2" @onclick="()=>AddOrderItem(prod)">
-                                <i class="bi bi-cart3 btn btn-success text-right px-5">
+                            <div class="card-footer border-0 " @onclick="()=>AddOrderItem(prod)">
+                                <i class="bi bi-cart3 btn btn-success">
                                     Add to cart
                                 </i>
                             </div>
@@ -107,7 +116,7 @@ else
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(firstRender)
+        if (firstRender)
         {
             await LoadProducts();
             isProcessing = false;
@@ -129,7 +138,9 @@ else
             FilteredProducts = Products;
             _selectedCategoryId = catId;
             return;
-        } else {
+        }
+        else
+        {
             FilteredProducts = Products.Where(u => u.CategoryId == catId).ToList();
             _selectedCategoryId = catId;
             _searchText = String.Empty;
@@ -138,43 +149,51 @@ else
 
     private void FilterByName(string text)
     {
-        if(string.IsNullOrWhiteSpace(text))
+        if (string.IsNullOrWhiteSpace(text))
         {
             FilteredProducts = Products;
-        } else
+        }
+        else
         {
             FilteredProducts = Products
-                .Where( u => u.Name.Contains(text, StringComparison.InvariantCultureIgnoreCase)).ToList();
+                .Where(u => u.Name.Contains(text, StringComparison.InvariantCultureIgnoreCase)).ToList();
         }
         _searchText = text;
     }
 
-    private string GetActiveTab( int catId)
+    private string GetActiveTab(int catId)
     {
         return catId == _selectedCategoryId ? "active" : string.Empty;
     }
 
     private async Task AddOrderItem(Product prod)
     {
-        if (! await _Common.IsUserAuthenticated())
+        if (!await _Common.IsUserAuthenticated())
         {
             _NavigationManager.NavigateTo($"/Account/Login");
-        } 
+        }
         else
         {
             // Add Item to Cart
             var userId = await _Common.GetUserId();
 
-            var result = await _cartRepos.UpdateCartAsync(userId , prod.Id, 1);
+            var result = await _cartRepos.UpdateCartAsync(userId, prod.Id, 1);
             _SharedStateService.CartCount = await _cartRepos.GetTotalCartAsync(userId);
 
-            if(result)
+            if (result)
             {
                 _JS?.ToastrSuccess("Product added to Cart");
-            } else
+            }
+            else
             {
                 _JS?.ToastrError("Something went wrong");
             }
         }
+    }
+
+    private void ClearSearch()
+    {
+        _searchText = string.Empty;
+        FilteredProducts = Products;
     }
 }

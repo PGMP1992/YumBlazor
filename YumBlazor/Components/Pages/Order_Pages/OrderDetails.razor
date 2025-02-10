@@ -13,81 +13,87 @@
 else
 {
     <div class="container my-5 mx-auto p-5 w-100" style="max-width: 950px;">
-        <div class="card" style="max-width: 750px;">
-            <div class="pt-3 text-success text-center">
-                <span class="h4"> Order Details</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/order/list">Orders</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Order Details</li>
+            </ol>
+        </nav>
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white text-center">
+                <span class="h4">Order Details - Id: <b>@OrderHeader.Id</b></span>
             </div>
 
-            <hr />
-            <div class="px-3">
-                <p>Order Id: <b>@OrderHeader.Id</b></p>
-                <p>Name: <b>@OrderHeader.Name</b></p>
-                <p>Email: <b>@OrderHeader.Email</b></p>
-                <p>Phone: <b>@OrderHeader.PhoneNumber</b></p>
-                <p>Order Status: <b>@OrderHeader.Status</b></p>
-            </div>
-            <hr />
             <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Name:</strong> @OrderHeader.Name</p>
+                        <p><strong>Email:</strong> @OrderHeader.Email</p>
+                        <p><strong>Phone:</strong> @OrderHeader.PhoneNumber</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Order Status:</strong> <span class="badge bg-info">@OrderHeader.Status</span></p>
+                    </div>
+                </div>
+
                 <h4 class="text-success">Menu Items</h4>
+                <ul class="list-group mb-3">
+                    @foreach (var order in OrderHeader.OrderDetails)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>@order.ProductName</span>
+                            <span>@order.Price.ToString("C") x @order.Count = <b>@((order.Price * @order.Count).ToString("C"))</b></span>
+                        </li>
+                    }
+                </ul>
 
-                @foreach (var order in OrderHeader.OrderDetails)
-                {
-                    <div class="d-flex">
-                        <div class="d-flex w-100 justify-content-between">
-                            <p>
-                                &nbsp; -- @order.ProductName
-                            </p>
-                            <p>
-                                @order.Price.ToString("C") x @order.Count = <b>@((order.Price * @order.Count).ToString("C"))</b>
-                            </p>
-                        </div>
-                    </div>
-                }
+                <div class="card-footer text-end">
+                    <h4 class="text-success">
+                        Total: @OrderHeader.Total.ToString("C")
+                    </h4>
+                </div>
 
-                <hr />
-                <h4 class="text-success text-end">
-                    @OrderHeader.Total.ToString("C")
-                </h4>
-                <hr />
-
-                <div class="row">
-                    <div class="col-5">
-                        <a href="order/list" class="btn btn-secondary  m-2 p-2" style="width:150px;">Back to Orders</a>
-                    </div>
-                    <div class="col-7 text-end">
-                        @if (OrderHeader.Status != SD.StatusCancelled &&
-                            OrderHeader.Status != SD.StatusCompleted &&
-                            _AuthenticationStateProvider.GetAuthenticationStateAsync().GetAwaiter().GetResult().User?.IsInRole(SD.Role_Admin) == true
-                        )
-                        {
-                            <button class="btn btn-danger m-2 p-2" @onclick="()=>UpdateStatus(SD.StatusCancelled)" style="width:150px;">Cancel Order</button>
-                            
+                <div class="d-flex justify-content-between mt-3">
+                    <a href="/order/list" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to Orders
+                    </a>
+                    @if (OrderHeader.Status != SD.StatusCancelled &&
+                   OrderHeader.Status != SD.StatusCompleted &&
+                   _AuthenticationStateProvider.GetAuthenticationStateAsync().GetAwaiter().GetResult().User?.IsInRole(SD.Role_Admin) == true
+                   )
+                    {
+                        <div>
+                            <button class="btn btn-danger me-2" @onclick="()=>UpdateStatus(SD.StatusCancelled)">
+                                <i class="bi bi-x-circle"></i> Cancel Order
+                            </button>
                             @if (OrderHeader.Status == SD.StatusApproved)
                             {
-                                <button class="btn btn-primary m-2 p-2" @onclick="()=>UpdateStatus(SD.StatusReadyForPickUp)" style="width:150px;">Ready for Pickup</button>
+                                <button class="btn btn-primary me-2" @onclick="()=>UpdateStatus(SD.StatusReadyForPickUp)">
+                                    <i class="bi bi-box-seam"></i> Ready for Pickup
+                                </button>
                             }
                             @if (OrderHeader.Status == SD.StatusReadyForPickUp)
                             {
-                                <button class="btn btn-success m-2 p-2" @onclick="()=>UpdateStatus(SD.StatusCompleted)" style="width:150px;">Completed</button>
+                                <button class="btn btn-success" @onclick="()=>UpdateStatus(SD.StatusCompleted)">
+                                    <i class="bi bi-check-circle"></i> Completed
+                                </button>
                             }
-                        }
-                    </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     </div>
 }
 
-
-
 @code {
-
-    private bool IsProcessing { get; set; } = true;
 
     [Parameter]
     public int Id { get; set; }
-    
-    private OrderHeader ? OrderHeader = null;
+
+    private bool IsProcessing { get; set; } = true;
+
+    private OrderHeader? OrderHeader = null;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -97,7 +103,6 @@ else
             IsProcessing = false;
             StateHasChanged();
         }
-        //return base.OnAfterRenderAsync(firstRender);
     }
 
     private async Task LoadOrder()

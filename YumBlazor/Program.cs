@@ -38,7 +38,6 @@ builder.Services.AddSingleton<SharedStateService>();
 builder.Services.AddScoped<PaymentService>();
 
 builder.Services.AddRadzenComponents();
-
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
