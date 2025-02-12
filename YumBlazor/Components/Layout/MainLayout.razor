@@ -43,6 +43,7 @@
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
         var authenticated = user.Identity is not null && user.Identity.IsAuthenticated;
+        
         if(! authenticated )
         {
             return true;
@@ -53,9 +54,7 @@
         {
             return true;
         }
+
         return false;
     }   
-    
-    
-
 }

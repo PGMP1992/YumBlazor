@@ -1,8 +1,10 @@
 ﻿@page "/order/details/{Id:int}"
 @using System.Globalization
+@using Microsoft.AspNetCore.Authorization
 @inject IOrderRepos _orderRepos
 @inject IJSRuntime _JS
 @inject AuthenticationStateProvider _AuthenticationStateProvider
+@attribute [Authorize]
 
 @if (IsProcessing)
 {

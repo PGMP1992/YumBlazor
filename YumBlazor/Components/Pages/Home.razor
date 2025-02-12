@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using System.Globalization
+@using Microsoft.AspNetCore.Authorization
 @using YumBlazor.Services
 @inject IProductRepos _prodRepos
 @inject ICategoryRepos _catRepos
@@ -10,7 +11,8 @@
 @inject NavigationManager _NavigationManager
 @inject SharedStateService _SharedStateService
 @inject NotificationService NotificationService
-
+@* @attribute [Authorize]
+ *@
 <PageTitle>Home</PageTitle>
 
 @if (isProcessing)
@@ -106,6 +108,7 @@ else
 }
 
 @code {
+
     private IEnumerable<Product> Products = new List<Product>();
     private IEnumerable<Category> Categories = new List<Category>();
     private IEnumerable<Product> FilteredProducts = new List<Product>();
@@ -168,13 +171,13 @@ else
 
     private async Task AddOrderItem(Product prod)
     {
-        if (!await _Common.IsUserAuthenticated())
+        if ( ! await _Common.IsUserAuthenticated())
         {
-            _NavigationManager.NavigateTo($"/Account/Login");
+            _NavigationManager.NavigateTo("account/login", true); // Need to forceLoad = "true" for the page otherwise gets  Not Found!
         }
         else
         {
-            // Add Item to Cart
+            //Add Item to Cart
             var userId = await _Common.GetUserId();
 
             var result = await _cartRepos.UpdateCartAsync(userId, prod.Id, 1);

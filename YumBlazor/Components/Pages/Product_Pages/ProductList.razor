@@ -1,7 +1,9 @@
 ﻿@page "/Product"
 @using System.Globalization
+@using Microsoft.AspNetCore.Authorization
 @inject IProductRepos _productRepos
 @inject IJSRuntime _JS
+@attribute [Authorize]
 
 <BsModal OnModalConfirmation="ConfirmDelete_click"
     ButtonStyle="btn-danger"

@@ -1,6 +1,8 @@
 ﻿@page "/category"
+@using Microsoft.AspNetCore.Authorization
 @inject ICategoryRepos _categoryRepository
 @inject IJSRuntime _JS
+@attribute [Authorize]
 
 <BsModal OnModalConfirmation="ConfirmDelete_Click"
         ButtonStyle="btn-danger"

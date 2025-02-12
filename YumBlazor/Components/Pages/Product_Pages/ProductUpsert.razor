@@ -1,10 +1,13 @@
 ﻿@page "/product/create"
 @page "/product/update/{id:int}"
+@using Microsoft.AspNetCore.Authorization
 @inject IProductRepos _productRepository
 @inject ICategoryRepos _categoryRepository
 @inject NavigationManager _navigationManager
 @inject IWebHostEnvironment _webHostEnvironment
 @inject IJSRuntime _JS
+@attribute [Authorize]
+
 @if (IsProcessing)
 {
     <div class="position-absolute w-75 h-75 d-flex flex-column align-items-center bg-white justify-content-center">

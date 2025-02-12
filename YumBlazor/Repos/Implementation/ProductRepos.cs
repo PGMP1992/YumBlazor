@@ -57,7 +57,8 @@ namespace YumBlazor.Repos.Implementation
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return await _db.Products.Include(u => u.Category).ToListAsync();
+            return await _db.Products.Include(u => u.Category)
+                .OrderBy(u => u.Name).ToListAsync();
         }
 
         public async Task<Product> UpdateAsync(Product Product)

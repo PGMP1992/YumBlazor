@@ -1,8 +1,10 @@
 ﻿@page "/category/create"
 @page "/category/update/{id:int}"
+@using Microsoft.AspNetCore.Authorization
 @inject ICategoryRepos _categoryRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _JS
+@attribute [Authorize]
 
 @if (IsProcessing)
 {
