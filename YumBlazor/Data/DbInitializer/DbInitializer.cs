@@ -47,11 +47,11 @@ namespace YumBlazor.Data.DbInitializer
 
             // Create Admin User
             var result = _userManager.CreateAsync(new AppUser()
-            {
-                UserName = admin,
-                Email = admin,
-                PhoneNumber = "+46 (0) 12345678",
-            }, pass).GetAwaiter().GetResult();
+                {
+                    UserName = admin,
+                    Email = admin,
+                    PhoneNumber = "+46 (0) 12345678",
+                }, pass).GetAwaiter().GetResult();
 
             if (result.Succeeded)
             {

@@ -26,9 +26,11 @@ namespace YumBlazor.Repos.Implementation
         {
             if (!string.IsNullOrEmpty(userId))
             {
-                return await _db.OrderHeaders.Where(u => u.UserId == userId).ToListAsync();
+                return await _db.OrderHeaders.Where(u => u.UserId == userId)
+                    .OrderByDescending(u => u.OrderDate).ToListAsync();
             }
-            return await _db.OrderHeaders.ToListAsync();
+            return await _db.OrderHeaders
+                .OrderByDescending(u => u.OrderDate).ToListAsync();
         }
 
         public async Task<OrderHeader> GetAsync(int id)

@@ -11,9 +11,9 @@
 @inject NavigationManager _NavigationManager
 @inject SharedStateService _SharedStateService
 @inject NotificationService NotificationService
-@* @attribute [Authorize]
- *@
-<PageTitle>Home</PageTitle>
+@* @attribute [Authorize] *@
+
+<PageTitle>Yumm - Home</PageTitle>
 
 @if (isProcessing)
 {
@@ -29,12 +29,12 @@ else
                 <div class="input-group">
                     <input type="text" class="form-control rounded-pill"
                            @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
-                           placeholder="Search for Food!"
+                           placeholder="Search the menu!"
                            style="padding: 20px;">
                     <button class="btn btn-outline-secondary rounded-pill" type="button" @onclick="ClearSearch">
                         <i class="bi bi-x-circle"></i>
                     </button>
-                    <span class="input-group-text bg-transparent border-0" style="position: relative; left: -43px;">
+                    <span class="input-group-text bg-transparent text-white border-0">
                         <i class="bi bi-search"></i>
                     </span>
                 </div>
@@ -44,7 +44,7 @@ else
         <div class="content h-100 px-3 mt-2">
             
             @* Categories ------------------------- *@
-            <ul class="nav nav-item justify-content-center mb-3">
+            <ul class="nav nav-item justify-content-center">
                 <li class="nav-item">
                     <span class="nav-link @GetActiveTab(0)" href="#" style="cursor: pointer" @onclick="()=>FilterProducts(0)">All</span>
                 </li>
@@ -63,40 +63,41 @@ else
                 {
                     <div class="col-md-6 col-lg-2 g-3">
                         <div class="card h-100 border-0 shadow-sm p-3 bg-transparent">
-                            <div class="card-top mt-3 mb-2 row">
-                                <div class="col-6">
-                                    @if (!string.IsNullOrEmpty(prod.Tag))
-                                    {
-                                        <div class="btn btn-outline-success disabled">
-                                            <i class="bi bi-star">
-                                                @prod.Tag
-                                            </i>
-                                        </div>
-                                    }
-                                </div>
-                                <div class="col-6 text-end text-danger px-3 h5">
-                                    @prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
-                                </div>
-                            </div>
                             <div class="text-center">
                                 @if (!string.IsNullOrEmpty(prod.ImageUrl))
                                 {
-                                    <img class="card-img-top img-thumbnail border-0 mt-2" src="@prod.ImageUrl" >
+                                    <img class="card-img-top img-thumbnail border-0 mt-2" src="@prod.ImageUrl">
                                 }
                                 else
                                 {
                                     <img class="card-img-top img-thumbnail border-0 mt-2" src="images/default.png" style="max-height: 200px; object-fit: cover;">
                                 }
                             </div>
-
-                            <div class="card-body">
+                            <div class="card-head row ">
                                 <h5 class="card-title text-center lead text-success">@prod.Name</h5>
-                                <p class="text-danger text-center mt-2"><b>@prod.Category.Name</b></p>
+                                <p class="text-danger text-center"><b>@prod.Category.Name</b></p>
                                 @* <p class="card-text mt-2">@((MarkupString)@prod.Description)</p> *@
+                            
+                                <div class="row">
+                                    <div class="col-6">
+                                        @if (!string.IsNullOrEmpty(prod.Tag))
+                                        {
+                                            <div class="btn btn-outline-success disabled">
+                                                <i class="bi bi-star">
+                                                    @prod.Tag
+                                                </i>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="col-6 text-end px-3 h5">
+                                        @prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
+                                    </div>
+                                </div>
                             </div>
+                            
                             <div class="card-footer border-0 " @onclick="()=>AddOrderItem(prod)">
                                 <i class="bi bi-cart3 btn btn-success">
-                                    Add to cart
+                                    Add
                                 </i>
                             </div>
                         </div>

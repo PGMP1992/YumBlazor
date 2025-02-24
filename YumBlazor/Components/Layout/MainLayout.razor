@@ -13,7 +13,9 @@
             <NavBar></NavBar>
         }
         <ErrorBoundary> @* Let's see what this does *@
-        @Body
+        <div class="m-3">
+            @Body
+            </div>
         </ErrorBoundary>
     </main>
 </div>
@@ -34,7 +36,7 @@
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
+    { 
         _navBarVisible = await ShowNavBar();
     }
 
