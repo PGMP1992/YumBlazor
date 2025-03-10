@@ -1,7 +1,7 @@
-html, body {
+/*html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size :14px; /* Added - PM */
-}
+    font-size :14px;*/ /* Added - PM */
+/*}
 
 a, .btn-link {
     color: #006bb7;
@@ -127,13 +127,13 @@ h1:focus {
 
 span.nav-link {
     color: #212529 !important;
-}
+}*/
 
 /*.nav-link:focus, .nav-link:hover {
     color: #212529;
 }
 */
-span.nav-link.active {
+/*span.nav-link.active {
     border-bottom: 3px solid #198754;
     color: #198754 !important;
 }
@@ -142,5 +142,5 @@ span.nav-link.active {
 
 .mark-up-string * {
     background: transparent !important;
-}
+}*/
 

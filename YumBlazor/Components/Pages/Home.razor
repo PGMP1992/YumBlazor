@@ -31,12 +31,13 @@ else
                            @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
                            placeholder="Search the menu!"
                            style="padding: 20px;">
-                    <button class="btn btn-outline-secondary rounded-pill" type="button" @onclick="ClearSearch">
-                        <i class="bi bi-x-circle"></i>
-                    </button>
+                    
                     <span class="input-group-text bg-transparent text-white border-0">
                         <i class="bi bi-search"></i>
                     </span>
+                    <button class="btn btn-outline-secondary text-white rounded-pill" type="button" @onclick="ClearSearch">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -56,24 +57,28 @@ else
                     </li>
                 }
             </ul>
+        </div>
 
             @* Products ---------------------------- *@
-            <div class="row mt-4 mx-0">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 g-2">
                 @foreach (var prod in FilteredProducts)
                 {
-                    <div class="col-md-6 col-lg-2 g-3">
-                        <div class="card h-100 border-0 shadow-sm p-3 bg-transparent">
-                            <div class="text-center">
-                                @if (!string.IsNullOrEmpty(prod.ImageUrl))
-                                {
-                                    <img class="card-img-top img-thumbnail border-0 mt-2" src="@prod.ImageUrl">
-                                }
-                                else
-                                {
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                            
+                                <div class="text-center">
+                                    @if (!string.IsNullOrEmpty(prod.ImageUrl))
+                                    {
+                                    <img class="card-img-top img-thumbnail border-0 mt-2" src="@prod.ImageUrl" style="max-height: 200px; object-fit: cover;">
+                                    }
+                                    else
+                                    {
                                     <img class="card-img-top img-thumbnail border-0 mt-2" src="images/default.png" style="max-height: 200px; object-fit: cover;">
-                                }
-                            </div>
-                            <div class="card-head row ">
+                                    }
+                                </div>
+
+                                
                                 <h5 class="card-title text-center lead text-success">@prod.Name</h5>
                                 <p class="text-danger text-center"><b>@prod.Category.Name</b></p>
                                 @* <p class="card-text mt-2">@((MarkupString)@prod.Description)</p> *@
@@ -93,8 +98,9 @@ else
                                         @prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
                                     </div>
                                 </div>
-                            </div>
                             
+                            
+                            </div>
                             <div class="card-footer border-0 " @onclick="()=>AddOrderItem(prod)">
                                 <i class="bi bi-cart3 btn btn-success">
                                     Add
@@ -103,7 +109,7 @@ else
                         </div>
                     </div>
                 }
-            </div>
+            
         </div>
     </div>
 }

@@ -180,16 +180,21 @@ else
     {
         IsProcessing = true;
         var file = e.File;
+
         System.IO.FileInfo fileInfo = new(file.Name);
-        var newFileName = $"{Guid.NewGuid()}{fileInfo.Extension}";
-        if (!Directory.Exists(_directoryPath))
+        //var newFileName = $"{Guid.NewGuid()}{fileInfo.Extension}";
+        var newFileName = $"{file.Name}";
+        
+        if (! Directory.Exists(_directoryPath))
         {
             Directory.CreateDirectory(_directoryPath);
         }
+        
         var path = Path.Combine(_directoryPath, newFileName);
 
         await using FileStream fileStream = new (path, FileMode.Create);
         await file.OpenReadStream(file.Size).CopyToAsync(fileStream);
+        
         Product.ImageUrl = $"/images/product/{newFileName}";
         IsProcessing=false;
     }
