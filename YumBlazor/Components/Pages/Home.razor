@@ -43,7 +43,6 @@ else
         </div>
 
         <div class="content h-100 px-3 mt-2">
-            
             @* Categories ------------------------- *@
             <ul class="nav nav-item justify-content-center">
                 <li class="nav-item">
@@ -59,57 +58,60 @@ else
             </ul>
         </div>
 
-            @* Products ---------------------------- *@
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 g-2">
-                @foreach (var prod in FilteredProducts)
-                {
-                    <div class="col">
-                        <div class="card h-100">
-                            <div class="card-body">
+        @* Products ---------------------------- *@
+        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-2 p-2">
+            @foreach (var prod in FilteredProducts)
+            {
+            <div class="col">
+                <div class="card h-100 border-0">
+                    <div class="card-body">
                             
-                                <div class="text-center">
-                                    @if (!string.IsNullOrEmpty(prod.ImageUrl))
-                                    {
-                                    <img class="card-img-top img-thumbnail border-0 mt-2" src="@prod.ImageUrl" style="max-height: 200px; object-fit: cover;">
-                                    }
-                                    else
-                                    {
-                                    <img class="card-img-top img-thumbnail border-0 mt-2" src="images/default.png" style="max-height: 200px; object-fit: cover;">
-                                    }
-                                </div>
+                        <div class="text-center">
+                            @if (!string.IsNullOrEmpty(prod.ImageUrl))
+                            {
+                                <img class="card-img-top img-thumbnail border-0 mt-2" src="@prod.ImageUrl" style="max-height: 200px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <img class="card-img-top img-thumbnail border-0 mt-2" src="images/default.png" style="max-height: 200px; object-fit: cover;">
+                            }
+                        </div>
 
-                                
-                                <h5 class="card-title text-center lead text-success">@prod.Name</h5>
-                                <p class="text-danger text-center"><b>@prod.Category.Name</b></p>
-                                @* <p class="card-text mt-2">@((MarkupString)@prod.Description)</p> *@
+                        <p class="h5 card-title text-center lead text-success">@prod.Name</p>
+                        @* <p class="text-danger text-center"><b>@prod.Category.Name</b></p> *@
+                        @* <p class="card-text mt-2">@((MarkupString)@prod.Description)</p> *@
                             
-                                <div class="row">
-                                    <div class="col-6">
-                                        @if (!string.IsNullOrEmpty(prod.Tag))
-                                        {
-                                            <div class="btn btn-outline-success disabled">
-                                                <i class="bi bi-star">
-                                                    @prod.Tag
-                                                </i>
-                                            </div>
-                                        }
-                                    </div>
-                                    <div class="col-6 text-end px-3 h5">
-                                        @prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
-                                    </div>
+                        @if (!string.IsNullOrEmpty(prod.Tag))
+                        {
+                            <div class="row col-12">
+                                <div class="text-start">
+                                    <i class="bi bi-star bg-warning p-2">
+                                        @prod.Tag
+                                    </i>
                                 </div>
-                            
-                            
+                            @*     <div class="col-6 text-end">
+                                    <p class="text-danger text-center"><b>@prod.Category.Name</b></p>
+                                </div> *@
                             </div>
-                            <div class="card-footer border-0 " @onclick="()=>AddOrderItem(prod)">
+                        }
+                                    
+                    </div>
+                            
+                    <div class="card-footer border-0 " @onclick="()=>AddOrderItem(prod)">
+                        <div class="row">
+                            <div class="col-6 text-start px-3 h5">
+                                @prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
+                            </div>
+                            <div class="col-6 text-end px-3">
                                 <i class="bi bi-cart3 btn btn-success">
                                     Add
                                 </i>
                             </div>
                         </div>
                     </div>
-                }
-            
+                </div>
+            </div>
+            }
         </div>
     </div>
 }

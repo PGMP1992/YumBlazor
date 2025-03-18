@@ -1,7 +1,7 @@
-/*html, body {
+html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size :14px;*/ /* Added - PM */
-/*}
+    font-size :14px;  /*Added - PM */
+}
 
 a, .btn-link {
     color: #006bb7;
@@ -60,10 +60,10 @@ h1:focus {
     text-align: start;
 }
 
-html, body {
+/*html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-
+*/
 a, .btn-link {
     color: #006bb7;
 }
@@ -111,7 +111,7 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
-
+/*
 
 .jumbotron-custom {
     background: linear-gradient(to right, #2c536499, #203a4399, #0f202799), url(https://dotnetmasteryimages.blob.core.windows.net/yumblazor/searchImage.jpg) center;
@@ -120,20 +120,20 @@ h1:focus {
     height: 50vh;
     overflow: hidden;
 }
-
+*/
 .img-rounded {
     border-radius: 50%;
 }
 
 span.nav-link {
     color: #212529 !important;
-}*/
+}
 
-/*.nav-link:focus, .nav-link:hover {
+.nav-link:focus, .nav-link:hover {
     color: #212529;
 }
-*/
-/*span.nav-link.active {
+
+span.nav-link.active {
     border-bottom: 3px solid #198754;
     color: #198754 !important;
 }
@@ -142,5 +142,5 @@ span.nav-link {
 
 .mark-up-string * {
     background: transparent !important;
-}*/
+}
 

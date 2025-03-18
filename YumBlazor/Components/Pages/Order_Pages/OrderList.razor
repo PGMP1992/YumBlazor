@@ -15,7 +15,7 @@
 }
 else
 {
-    <div class="card border-1 m-4">
+    <div class="card border-1">
         <div class="card-header bg-black bg-gradient ml-0 py-3">
             <div class="row">
                 <div class="col-12 text-center">
@@ -23,14 +23,14 @@ else
                 </div>
             </div>
         </div>
+        
         <div class="card-body p-4">
-
             @if (Orders.Any())
             {
                 <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced"
-                                AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
-                                ShowPagingSummary="true" Data="@Orders" ColumnWidth="300px"
-                                LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
+                AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+                ShowPagingSummary="true" Data="@Orders" ColumnWidth="300px"
+                LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
                     <Columns>
                         <RadzenDataGridColumn Property="Id" Filterable="true" Title="ID" Frozen="true" Width="50px" />
                         <RadzenDataGridColumn Property="Name" Title="Name" Frozen="false" Width="120px" />
@@ -42,7 +42,7 @@ else
                         <RadzenDataGridColumn Title="Action" Sortable="true" Filterable="true" Width="80px" TextAlign="TextAlign.Center">
                             <Template Context="Orders">
                                 <RadzenButton Shade="Shade.Lighter" Text="Details" ButtonStyle="ButtonStyle.Primary"
-                                              Click="@(()=>_NavigationManager.NavigateTo($"order/details/{Orders.Id}"))"></RadzenButton>
+                                Click="@(()=>_NavigationManager.NavigateTo($"order/details/{Orders.Id}"))"></RadzenButton>
                             </Template>
                         </RadzenDataGridColumn>
                     </Columns>
@@ -79,6 +79,10 @@ else
                         </tbody>
                     </table>
                 </div> *@
+            }
+            else
+            {
+                <p class="text-info-emphasis">There are no Orders recorded in your acccount.</p>
             }
         </div>
     </div>
