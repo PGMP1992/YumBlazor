@@ -16,7 +16,7 @@
 }
 else
 {
-    <div class="card border-1 m-4">
+    <div class="card border-1 m-2">
         <div class="card-header bg-black bg-gradient ml-0 py-3">
             <div class="row">
                 <div class="col-12 text-center">
@@ -97,15 +97,14 @@ else
                         }
                     </div>
                     
-                    <hr />
                     <div class="d-flex">
                         <div class="row">
                             <div class="btn-group" role="group">
                                 <button type="submit" class="btn btn-primary mx-1" disabled="@IsProcessing">
-                                    <i class="bi bi-floppy2-fill"></i> @(Id == 0 ? "Create" : "Update") 
+                                    @(Id == 0 ? "Create" : "Update") 
                                 </button>
-                                <a href="product" class="btn btn-outline-primary mx-1" disabled="@IsProcessing">
-                                    <i class="bi bi-arrow-bar-left"></i> Back
+                                <a href="product" class="btn btn-outline-primary" disabled="@IsProcessing">
+                                     Back
                                 </a>
                             </div>
                         </div>

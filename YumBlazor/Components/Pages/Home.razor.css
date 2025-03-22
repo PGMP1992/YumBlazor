@@ -4,7 +4,12 @@
     box-shadow: 0 4px 8px rgb(0, 1, 39, 0.31);
     transform: scale(1.02);
     transition: all 0.3s ease;
-    background-image: linear-gradient(to right, rgb(232, 6, 47, 0.49), rgba(255, 0, 0, 0));
+    background-image: linear-gradient(to right, rgba(243, 232, 232, 0.918), rgba(255, 0, 0, 0));
+}
+
+img:hover {
+    transform: scale(0.9);
+    transition: all 0.3s ease;
 }
 
 
