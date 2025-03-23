@@ -4,12 +4,46 @@
     box-shadow: 0 4px 8px rgb(0, 1, 39, 0.31);
     transform: scale(1.02);
     transition: all 0.3s ease;
+    
     background-image: linear-gradient(to right, rgba(243, 232, 232, 0.918), rgba(255, 0, 0, 0));
+    img {
+        transform: scale(1.03);
+        transition: all 0.3s ease;
+    }
 }
 
-img:hover {
-    transform: scale(0.9);
+/*.card {
+    position: relative;
+    overflow: hidden;
+}*/
+
+.description {
+    display: none;
+    /*position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.7);*/
+    color: black;
+    padding: 10px;
+    text-align: left;
     transition: all 0.3s ease;
 }
 
+    .card:hover {
+        box-shadow: 0 4px 8px rgb(0, 1, 39, 0.31);
+        transform: scale(1.02);
+        transition: all 0.3s ease;
+        background-image: linear-gradient(to right, rgba(243, 232, 232, 0.918), rgba(255, 0, 0, 0));
+    }
+
+        .card:hover .description {
+            display: block;
+        }
+
+        /*.card:hover img {
+            transform: scale(1.03);
+            transition: all 0.3s ease;
+        }
+*/
 

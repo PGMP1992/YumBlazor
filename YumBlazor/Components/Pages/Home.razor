@@ -77,25 +77,36 @@ else
                             }
                         </div>
 
-                        <p class="h5 card-title text-center lead text-success">@prod.Name</p>
-                        @* <p class="text-danger text-center"><b>@prod.Category.Name</b></p> *@
-                        @* <p class="card-text mt-2">@((MarkupString)@prod.Description)</p> *@
-                            
-                        @if (!string.IsNullOrEmpty(prod.Tag))
-                        {
-                            <div class="row col-12">
-                                <div class="text-start">
-                                    <i class="bi bi-star bg-warning p-2">
-                                        @prod.Tag
-                                    </i>
+                            <div class="row mt-2">
+                                <div class="col text-start">
+                                    <p class="h5 card-title lead text-success">@prod.Name</p>
                                 </div>
-                            @*     <div class="col-6 text-end">
+                                
+                                @if (!string.IsNullOrEmpty(prod.Tag))
+                                {
+                                    <div class="col text-end">
+                                        <i class="bi bi-star bg-warning p-2">
+                                            @prod.Tag
+                                        </i>
+                                    </div>
+                                        @*     <div class="col-6 text-end">
                                     <p class="text-danger text-center"><b>@prod.Category.Name</b></p>
                                 </div> *@
+                                }
                             </div>
-                        }
+                        @* <p class="h5 card-title text-center lead text-success">@prod.Name</p> *@
+                        @* <p class="text-danger text-center"><b>@prod.Category.Name</b></p> *@
+                        @* <p class="card-text mt-2">@((MarkupString)@prod.Description)</p> *@
+                            <div class="description">
+                                <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
+                            </div>
+                            
+                        
                                     
                     </div>
+                    @* <div class="description">
+                            <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
+                    </div> *@
                             
                     <div class="card-footer border-0 " @onclick="()=>AddOrderItem(prod)">
                         <div class="row">
