@@ -69,44 +69,33 @@ else
                         <div class="text-center">
                             @if (!string.IsNullOrEmpty(prod.ImageUrl))
                             {
-                                <img class="card-img-top img-thumbnail border-0 mt-2" src="@prod.ImageUrl" style="max-height: 200px; object-fit: cover;">
+                                <img class="card-img-top img-thumbnail border-0 " src="@prod.ImageUrl" style="max-height: 200px; object-fit: cover;">
                             }
                             else
                             {
-                                <img class="card-img-top img-thumbnail border-0 mt-2" src="images/default.png" style="max-height: 200px; object-fit: cover;">
+                                <img class="card-img-top img-thumbnail border-0 " src="images/default.png" style="max-height: 200px; object-fit: cover;">
                             }
                         </div>
 
-                            <div class="row mt-2">
-                                <div class="col text-start">
-                                    <p class="h5 card-title lead text-success">@prod.Name</p>
-                                </div>
+                        <div class="row mt-2">
+                            <div class="col text-start">
+                                <p class="h5 card-title lead text-success">@prod.Name</p>
+                            </div>
                                 
-                                @if (!string.IsNullOrEmpty(prod.Tag))
-                                {
-                                    <div class="col text-end">
-                                        <i class="bi bi-star bg-warning p-2">
-                                            @prod.Tag
-                                        </i>
-                                    </div>
-                                        @*     <div class="col-6 text-end">
-                                    <p class="text-danger text-center"><b>@prod.Category.Name</b></p>
-                                </div> *@
-                                }
-                            </div>
-                        @* <p class="h5 card-title text-center lead text-success">@prod.Name</p> *@
-                        @* <p class="text-danger text-center"><b>@prod.Category.Name</b></p> *@
-                        @* <p class="card-text mt-2">@((MarkupString)@prod.Description)</p> *@
-                            <div class="description">
-                                <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
-                            </div>
-                            
+                            @if (!string.IsNullOrEmpty(prod.Tag))
+                            {
+                                <div class="col text-end">
+                                    <i class="bi bi-star bg-warning p-2">
+                                        @prod.Tag
+                                    </i>
+                                </div>
+                            }
+                        </div>
                         
-                                    
-                    </div>
-                    @* <div class="description">
+                        <div class="description">
                             <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
-                    </div> *@
+                        </div>
+                    </div>
                             
                     <div class="card-footer border-0 " @onclick="()=>AddOrderItem(prod)">
                         <div class="row">
@@ -120,6 +109,7 @@ else
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             }
