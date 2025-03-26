@@ -6,6 +6,7 @@
 @inject NavigationManager _navigationManager
 @inject IWebHostEnvironment _webHostEnvironment
 @inject IJSRuntime _JS
+
 @attribute [Authorize]
 
 @if (IsProcessing)
@@ -25,19 +26,19 @@ else
             </div>
         </div>
         <div class="card-body p-2">
-            <EditForm Model="Product" FormName="ProductUpsertForm" OnValidSubmit="UpsertProduct">
+            <EditForm Model="Product" FormName="ProductUpsertForm" OnValidSubmit="UpsertProduct" >
                 <DataAnnotationsValidator/>
-                
+
                 <div class="border-0 mt-2">
-                    
+
                     <div class="form-floating py-3 col-12">
                         <InputText @bind-Value="Product.Name" class="form-control" id="Name" placeholder="Name" />
                         <label for="Name">Name</label>
                         <ValidationMessage For="@(() => Product.Name)" />
                     </div>
                     <div class="form-floating py-3 col-12">
-                       @*  <label for="Description">Description</label>
- *@                        <RadzenHtmlEditor @bind-Value=@Product.Description style="height: 450px;" >
+                        @*  <label for="Description">Description</label>*@
+                        <RadzenHtmlEditor @bind-Value=@Product.Description style="height: 450px;" >
                             <RadzenHtmlEditorUndo />
                             <RadzenHtmlEditorRedo />
                             <RadzenHtmlEditorSeparator />
@@ -52,19 +53,19 @@ else
                         </RadzenHtmlEditor>
                         <ValidationMessage For="@(() => Product.Description)" />
                     </div>
-                    
+
                     <div class="form-floating py-3 col-12">
                         <InputText @bind-Value="Product.Tag" class="form-control" id="SpecialTag" placeholder="Special Tag" />
                         <label for="SpecialTag">Special Tag</label>
                         <ValidationMessage For="@(() => Product.Tag)" />
                     </div>
-                    
+
                     <div class="form-floating py-3 col-12">
                         <InputNumber @bind-Value="Product.Price" class="form-control" id="Price" placeholder="Price" />
                         <label for="Price">Price</label>
                         <ValidationMessage For="@(() => Product.Price)" />
                     </div>
-                    
+
                     <div class="form-floating py-3 col-12">
                         <InputSelect @bind-Value="Product.CategoryId" class="form-select" id="category">
                             <option value="0" disabled selected>--Select Category--</option>
@@ -76,19 +77,22 @@ else
                         <label for="category">Category</label>
                         <ValidationMessage For="@(() => Product.CategoryId)" />
                     </div>
-                    
+
                     <div class="form-floating py-3 col-12">
                         @if (Product.ImageUrl == null)
                         {
-                            <InputFile OnChange="LoadFiles" class="form-control  pb-3" id="customFile"
-                                       accept="image/x-png,image/jpeg" ></InputFile>
+                            <InputFile OnChange="LoadFiles" class="form-control pb-3" id="customFile"
+                                accept="image/png,image/jpeg" >
+                            </InputFile>
                             <label for="customFile">Upload Image</label>
                         }
+
                         @if (Product.ImageUrl != null)
                         {
                             <div class="row">
                                 <div class="col-3">
-                                    <img src="@Product.ImageUrl" alt="..." class="img-thumbnail">
+                                    <img src="@Product.ImageUrl" alt="..." class="img-thumbnail" />
+                                    <span>DB: @uploadFile</span>
                                 </div>
                                 <div class="col-md-9">
                                     <i class="bi bi-trash btn btn-outline-danger" @onclick="DeleteImage">Remove</i>
@@ -96,7 +100,7 @@ else
                             </div>
                         }
                     </div>
-                    
+
                     <div class="d-flex">
                         <div class="row">
                             <div class="btn-group" role="group">
@@ -104,15 +108,15 @@ else
                                     @(Id == 0 ? "Create" : "Update") 
                                 </button>
                                 <a href="product" class="btn btn-outline-primary" disabled="@IsProcessing">
-                                     Back
+                                    Back
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
             </EditForm>
-            
+
         </div>
     </div>
 }
@@ -128,6 +132,7 @@ else
     private IEnumerable<Category> _categories = new List<Category>();
 
     private string? _directoryPath { get; set; }
+    private string uploadFile { get; set; }= string.Empty;
     private bool IsProcessing { get; set; } = true;
 
     protected override Task OnInitializedAsync()
@@ -159,15 +164,13 @@ else
     private async Task UpsertProduct()
     {
         IsProcessing = true;
-        if (Product.Id == 0)
+        if (Product.Id == 0) //create
         {
-            //create
             await _productRepository.CreateAsync(Product);
             await _JS.ToastrSuccess("Product Created");
         }
-        else
+        else //update
         {
-            //update
             await _productRepository.UpdateAsync(Product);
             await _JS.ToastrSuccess("Product Updated");
         }
@@ -177,28 +180,36 @@ else
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
-        IsProcessing = true;
-        var file = e.File;
-
-        System.IO.FileInfo fileInfo = new(file.Name);
-        //var newFileName = $"{Guid.NewGuid()}{fileInfo.Extension}";
-        var newFileName = $"{file.Name}";
-        
-        if (! Directory.Exists(_directoryPath))
+        try
         {
-            Directory.CreateDirectory(_directoryPath);
+            IsProcessing = true;
+            var file = e.File;
+            System.IO.FileInfo fileInfo = new(file.Name);
+            //var newFileName = $"{Guid.NewGuid()}{fileInfo.Extension}";
+            
+            if (!Directory.Exists(_directoryPath))
+            {
+                Directory.CreateDirectory(_directoryPath);
+            }
+
+            var path = Path.Combine(_directoryPath, file.Name);
+
+            await using FileStream fileStream = new(path, FileMode.Create);
+            await file.OpenReadStream(file.Size).CopyToAsync(fileStream);
+            Product.ImageUrl = $"/images/product/{file.Name}";
+            uploadFile = path;
         }
-        
-        var path = Path.Combine(_directoryPath, newFileName);
-
-        await using FileStream fileStream = new (path, FileMode.Create);
-        await file.OpenReadStream(file.Size).CopyToAsync(fileStream);
-        
-        Product.ImageUrl = $"/images/product/{newFileName}";
-        IsProcessing=false;
+        catch (Exception ex)
+        {
+            await _JS.ToastrError($"Error uploading image: {ex.Message}");
+        }
+        finally
+        {
+            IsProcessing = false;
+        }
     }
-
-    void DeleteImage()
+    
+    private void DeleteImage()
     {
         if (Product.ImageUrl == null)
             return;

@@ -69,6 +69,7 @@ namespace YumBlazor.Repos.Implementation
                 fromDb.Name = Product.Name;
                 fromDb.Description = Product.Description;
                 fromDb.Price = Product.Price;
+                fromDb.Tag = Product.Tag;
                 fromDb.CategoryId = Product.CategoryId;
                 fromDb.ImageUrl = Product.ImageUrl;
 
