@@ -363,3 +363,13 @@ MigrationBackup/
 FodyWeavers.xsd
 /YumBlazor/appsettings.Development.json
 /YumBlazor/appsettings.Production.json
+/YumBlazor/wwwroot/images/product
+/YumBlazor/wwwroot/images/product/carrot love.jpg
+/YumBlazor/wwwroot/images/product/jalebi.jpg
+/YumBlazor/wwwroot/images/product/mango bliss.jpg
+/YumBlazor/wwwroot/images/product/paneer tikka.jpg
+/YumBlazor/wwwroot/images/product/pani puri.jpg
+/YumBlazor/wwwroot/images/product/Prawn Pathia.png
+/YumBlazor/wwwroot/images/product/rasmalai.jpeg
+/YumBlazor/wwwroot/images/product/samosa.jpg
+/YumBlazor/wwwroot/images/product/spring rolls.jpg
