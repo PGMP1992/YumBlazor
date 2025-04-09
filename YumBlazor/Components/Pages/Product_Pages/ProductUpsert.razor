@@ -92,7 +92,7 @@ else
                             <div class="row">
                                 <div class="col-3">
                                     <img src="@Product.ImageUrl" alt="..." class="img-thumbnail" />
-                                    <span>DB: @uploadFile</span>
+                                    <span>DB: @Product.ImageUrl</span>
                                 </div>
                                 <div class="col-md-9">
                                     <i class="bi bi-trash btn btn-outline-danger" @onclick="DeleteImage">Remove</i>
@@ -194,8 +194,8 @@ else
 
             var path = Path.Combine(_directoryPath, file.Name);
 
-            await using FileStream fileStream = new(path, FileMode.Create);
-            await file.OpenReadStream(file.Size).CopyToAsync(fileStream);
+            await using FileStream fs = new FileStream(path, FileMode.Create);
+            await file.OpenReadStream().CopyToAsync(fs);
             Product.ImageUrl = $"/images/product/{file.Name}";
             uploadFile = path;
         }
@@ -207,6 +207,25 @@ else
         {
             IsProcessing = false;
         }
+
+    // Coe below from Tangy Services
+    // public async Task<string> UploadFile(IBrowserFile file)
+    // {
+    //     FileInfo fileInfo = new(file.Name);
+    //     var fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+    //     var folder = $"{_webHostEnvironment.WebRootPath}\\images\\product";
+    //     if (!Directory.Exists(folder))
+    //     {
+    //         Directory.CreateDirectory(folder);
+    //     }
+
+    //     var filePath = Path.Combine(folder, fileName);
+    //     await using FileStream fs = new FileStream(filePath, FileMode.Create);
+    //     await file.OpenReadStream().CopyToAsync(fs);
+
+    //     var fullPath = $"/images/product/{fileName}";
+    //     return fullPath;
+    // }
     }
     
     private void DeleteImage()

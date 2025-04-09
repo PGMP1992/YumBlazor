@@ -4,7 +4,7 @@
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject IShoppingCartRepos _shoppingCartRepos
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="">
 			<img src="/images/Logo.png" alt="Bootstrap" width="30" height="24">
@@ -17,14 +17,14 @@
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav me-auto mb-2 mb-md-0">
 				<li class="nav-item mx-2">
-					<NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+					<NavLink class="nav-link text-light" href="/" Match="NavLinkMatch.All">
 						<span class="bi bi-house-door" aria-hidden="true">
 							Home
 						</span>
 					</NavLink>
 				</li>
 				<li class="nav-item mx-2">
-					<NavLink class="nav-link" href="/cart">
+					<NavLink class="nav-link text-light" href="/cart">
 						<span class="bi bi-cart3" aria-hidden="true">
 							(@_sharedStateService.CartCount)
 						</span>
@@ -32,7 +32,7 @@
 					</NavLink>
 				</li>
 				<li class="nav-item mx-2">
-					<NavLink class="nav-link" href="/order/list">
+					<NavLink class="nav-link text-light" href="/order/list">
 						<span class="bi bi-card-list" aria-hidden="true">
 							Orders
 						</span>
@@ -59,21 +59,24 @@
 					</Authorized>
 					<NotAuthorized>
 						<li class="nav-item">
-							<NavLink class="nav-link" href="Account/Register">
+							<NavLink class="nav-link text-light" href="Account/Register">
 								<span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
 							</NavLink>
 						</li>
 						<li class="nav-item">
-							<NavLink class="nav-link btn btn-success" href="Account/Login">
+							<NavLink class="nav-link text-light btn btn-success" href="Account/Login">
 								<span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
 							</NavLink>
 						</li>
+						
 					</NotAuthorized>
 				</AuthorizeView>
+				
 			</ul>
 		</div>
 	</div>
 </nav>
+
 
 @code {
 
