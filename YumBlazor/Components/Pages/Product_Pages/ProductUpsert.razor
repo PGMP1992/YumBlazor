@@ -6,6 +6,7 @@
 @inject NavigationManager _navigationManager
 @inject IWebHostEnvironment _webHostEnvironment
 @inject IJSRuntime _JS
+@inject IPhotoService _photoService
 
 @attribute [Authorize]
 
@@ -82,7 +83,7 @@ else
                         @if (Product.ImageUrl == null)
                         {
                             <InputFile OnChange="LoadFiles" class="form-control pb-3" id="customFile"
-                                accept="image/png,image/jpeg" >
+                            accept="image/png,image/jpeg" >
                             </InputFile>
                             <label for="customFile">Upload Image</label>
                         }
@@ -91,8 +92,8 @@ else
                         {
                             <div class="row">
                                 <div class="col-3">
-                                    <img src="@Product.ImageUrl" alt="..." class="img-thumbnail" />
-                                    <span>DB: @Product.ImageUrl</span>
+                                    <img src="@Product.ImageUrl" alt="Product Image..." class="img-thumbnail" />
+                                    @* <span>DB: @Product.ImageUrl</span> *@
                                 </div>
                                 <div class="col-md-9">
                                     <i class="bi bi-trash btn btn-outline-danger" @onclick="DeleteImage">Remove</i>
@@ -183,17 +184,17 @@ else
         try
         {
             IsProcessing = true;
-            var file = e.File;
-            System.IO.FileInfo fileInfo = new(file.Name);
-            
-            var result = await _photoService.AddPhotoAsync(file.Name);
 
-            var path = Path.Combine(_directoryPath, file.Name);
+            var browserFile = e.File;
+            var formFile = await ConvertToIFormFileAsync(browserFile);
+            var result = await _photoService.AddPhotoAsync(formFile);
 
-            await using FileStream fs = new FileStream(path, FileMode.Create);
-            await file.OpenReadStream().CopyToAsync(fs);
-            Product.ImageUrl = $"/images/product/{file.Name}";
-            uploadFile = path;
+            if ( !string.IsNullOrEmpty(Product.ImageUrl) && Product.ImageUrl != result.Url.ToString())
+            {
+                _ = _photoService.DeletePhotoAsync(Product.ImageUrl);
+            }
+
+            Product.ImageUrl = result.Url.ToString();
         }
         catch (Exception ex)
         {
@@ -203,45 +204,29 @@ else
         {
             IsProcessing = false;
         }
-
-    // Coe below from Tangy Services
-    // public async Task<string> UploadFile(IBrowserFile file)
-    // {
-    //     FileInfo fileInfo = new(file.Name);
-    //     var fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
-    //     var folder = $"{_webHostEnvironment.WebRootPath}\\images\\product";
-    //     if (!Directory.Exists(folder))
-    //     {
-    //         Directory.CreateDirectory(folder);
-    //     }
-
-    //     var filePath = Path.Combine(folder, fileName);
-    //     await using FileStream fs = new FileStream(filePath, FileMode.Create);
-    //     await file.OpenReadStream().CopyToAsync(fs);
-
-    //     var fullPath = $"/images/product/{fileName}";
-    //     return fullPath;
-    // }
     }
-    
+
+    private async Task<IFormFile> ConvertToIFormFileAsync(IBrowserFile browserFile)
+    {
+        var stream = browserFile.OpenReadStream();
+        var memoryStream = new MemoryStream();
+        await stream.CopyToAsync(memoryStream);
+        memoryStream.Position = 0;
+
+        return new FormFile(memoryStream, 0, browserFile.Size, browserFile.Name, browserFile.Name)
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = browserFile.ContentType
+            };
+    }
+
     private void DeleteImage()
     {
-        if (Product.ImageUrl == null)
-            return;
-
-        var fileToDelete = Product.ImageUrl.Split('/').Reverse().First();
-        var filePathToDeleteImage = Path.Combine(_directoryPath, fileToDelete);
-
-        if (!File.Exists(filePathToDeleteImage))
+        if (!string.IsNullOrEmpty(Product.ImageUrl))
         {
+            _ = _photoService.DeletePhotoAsync(Product.ImageUrl);
             Product.ImageUrl = null;
-            return;
+            _JS.ToastrSuccess("Picture Deleted.");
         }
-
-        File.Delete(filePathToDeleteImage);
-
-        Product.ImageUrl = null;
-        return;
     }
-        
 }

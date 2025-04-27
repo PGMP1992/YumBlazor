@@ -2,19 +2,23 @@
 using YumBlazor.Data;
 using YumBlazor.Models;
 using YumBlazor.Repos.Interfaces;
+using YumBlazor.Services;
 
 namespace YumBlazor.Repos.Implementation
 {
     public class ProductRepos : IProductRepos
     {
         private readonly ApplicationDbContext _db;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        //private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IPhotoService _photoService;
 
-        public ProductRepos(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
+        public ProductRepos(ApplicationDbContext db
+            //, IWebHostEnvironment webHostEnvironment
+            , IPhotoService photoService)
         {
             _db = db;
-
-            _webHostEnvironment = webHostEnvironment;
+            //_webHostEnvironment = webHostEnvironment;
+            _photoService = photoService;
         }
 
         public async Task<Product> CreateAsync(Product Product)
@@ -28,12 +32,22 @@ namespace YumBlazor.Repos.Implementation
         {
             var product = await _db.Products.FirstOrDefaultAsync(c => c.Id == id);
             
-            if (product.ImageUrl != null)
+            if(product == null)
             {
-                var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImageUrl.TrimStart('/'));
-                if (File.Exists(imagePath))
+                return false;
+            }
+
+            if ( !string.IsNullOrEmpty(product.ImageUrl))
+            {
+                //var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImageUrl.TrimStart('/'));
+                //if (File.Exists(imagePath))
+                //{
+                //    File.Delete(imagePath);
+                //}
+                if (!string.IsNullOrEmpty(product.ImageUrl))
                 {
-                    File.Delete(imagePath);
+                    _ = _photoService.DeletePhotoAsync(product.ImageUrl);
+                    product.ImageUrl = null;
                 }
             }
 
@@ -47,17 +61,19 @@ namespace YumBlazor.Repos.Implementation
 
         public async Task<Product> GetAsync(int id)
         {
-            var Product = await _db.Products.FirstOrDefaultAsync(c => c.Id == id);
-            if (Product == null)
+            var product = await _db.Products.FirstOrDefaultAsync(c => c.Id == id);
+            if (product == null)
             {
                 return new Product();
             }
-            return Product;
+            return product;
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return await _db.Products.Include(u => u.Category)
+            return await _db.Products
+                .AsNoTracking()
+                .Include(u => u.Category)
                 .OrderBy(u => u.Name).ToListAsync();
         }
 
