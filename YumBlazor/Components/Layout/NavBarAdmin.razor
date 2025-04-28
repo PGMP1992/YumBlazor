@@ -5,7 +5,7 @@
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">YumBlazor</a>
+        <a class="navbar-brand" href="">Yumm</a>
     </div>
 </div>
 
@@ -15,37 +15,37 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                <span class="bi bi-house-door-fill" aria-hidden="true"></span> Home
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link p-2" href="/category" >
-               <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Category
+               <span class="bi bi-plus-square-fill" aria-hidden="true"></span> Category
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link p-2" href="/product" Match="NavLinkMatch.All">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Product
+                <span class="bi bi-plus-square-fill" aria-hidden="true"></span> Product
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link p-2" href="/order/list" Match="NavLinkMatch.All">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Orders
+                <span class="bi bi-plus-square-fill" aria-hidden="true"></span> Orders
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link p-2" href="auth">
-                <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Auth Required
+                <span class="bi bi-lock" aria-hidden="true"></span> Auth Required
             </NavLink>
         </div>
 
         @* App Info ----------------------*@ 
         <div class="nav-item px-3 ">
-            <NavLink class="nav-link p-2 text-danger" id="info" data-bs-toggle="modal" data-bs-target="#infoModal">
+            <NavLink class="nav-link p-2 text-danger" style="cursor:pointer;" id="info" data-bs-toggle="modal" data-bs-target="#infoModal">
                 <span class="bi bi-info-circle-fill" aria-hidden="true"></span> App Info
             </NavLink>
         </div>
@@ -54,7 +54,7 @@
             <Authorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link p-2" href="Account/Manage">
-                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
+                        <span class="bi bi-person-fill" aria-hidden="true"></span> @context.User.Identity?.Name
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
@@ -62,7 +62,7 @@
                         <AntiforgeryToken />
                         <input type="hidden" name="ReturnUrl" value="@currentUrl" />
                         <button type="submit" class="nav-link">
-                            <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+                            <span class="bi bi-arrow-bar-left" aria-hidden="true"></span> Logout
                         </button>
                     </form>
                 </div>
@@ -70,12 +70,12 @@
             <NotAuthorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="Account/Register">
-                        <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
+                        <span class="bi bi-person" aria-hidden="true"></span> Register
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="Account/Login">
-                        <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
+                        <span class="bi bi-person-badge" aria-hidden="true"></span> Login
                     </NavLink>
                 </div>
             </NotAuthorized>
