@@ -1,6 +1,18 @@
-html, body {
+html, body, page {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size :14px;  /*Added - PM */
+    font-size: 14px; /*Added - PM */
+    height: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main {
+    flex: 1 0 auto;
 }
 
 a, .btn-link {
@@ -145,15 +157,14 @@ span.nav-link.active {
 }
 
 
-footer {
+.footer {
     flex-shrink: 0;
-    padding: 5px;
+    padding: 10px;
     width: 100%;
     text-align: center;
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: auto;
-    background-color: black;
     color: white;
-    position:relative;
+    background-color:black;
+    backdrop-filter: black;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0;
 }
