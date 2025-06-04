@@ -17,21 +17,20 @@
 
 @if (isProcessing)
 {
-    <div class="position-absolute w-100 vh-100 d-flex flex-column align-items-center bg-white justify-content-center">
+    <div class="d-flex flex-column align-items-center justify-content-center bg-white min-vh-100">
         <img src="/images/loading.gif" alt="loading" />
     </div>
 }
 else
 {
-    <div class="container-fluid px-0 m-0 full-width">
+    <div class="container-fluid px-3">
+        @* Search Box *@
         <div class="bg-secondary py-4">
-            <div class="m-auto d-flex align-items-center" style="width: 400px;">
+            <div class="mx-auto d-flex align-items-center" style="max-width: 400px;">
                 <div class="input-group">
                     <input type="text" class="form-control rounded-pill"
                            @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
-                           placeholder="Search the menu!"
-                           >
-                    
+                           placeholder="Search the menu!" />
                     <span class="input-group-text bg-transparent text-white border-0">
                         <i class="bi bi-search"></i>
                     </span>
@@ -42,83 +41,82 @@ else
             </div>
         </div>
 
-        <div class="content h-100 px-3 mt-2">
-            @* Categories ------------------------- *@
-            <ul class="nav nav-item justify-content-center">
+        @* Categories *@
+        <div class="content px-3 my-2">
+            <ul class="nav justify-content-center">
                 <li class="nav-item">
-                    <span class="nav-link @GetActiveTab(0)" href="#" style="cursor: pointer" @onclick="()=>FilterProducts(0)">All</span>
+                    <span class="nav-link @GetActiveTab(0)" style="cursor: pointer" @onclick="()=>FilterProducts(0)">All</span>
                 </li>
                 @foreach (var cat in Categories)
                 {
                     <li class="nav-item">
                         <span class="nav-link @GetActiveTab(cat.Id)"
-                              href="#" style="cursor: pointer" @onclick="()=>FilterProducts(cat.Id)">@cat.Name</span>
+                              style="cursor: pointer" @onclick="()=>FilterProducts(cat.Id)">@cat.Name</span>
                     </li>
                 }
             </ul>
         </div>
 
-        @* Products ---------------------------- *@
-        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-2 p-2">
+        @* Products *@
+    @if (FilteredProducts.Any())
+    {
+        <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-6 g-3">
+            
             @foreach (var prod in FilteredProducts)
             {
-            <div class="col">
-                <div class="card h-100 border-0">
-                    <div class="card-body">
-                            
-                        <div class="text-center">
-                            @if (!string.IsNullOrEmpty(prod.ImageUrl))
-                            {
-                                <img class="card-img-top img-thumbnail border-0 " src="@prod.ImageUrl" style="max-height: 200px; object-fit: cover;">
-                            }
-                            else
-                            {
-                                <img class="card-img-top img-thumbnail border-0 " src="images/default.png" style="max-height: 200px; object-fit: cover;">
-                            }
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col text-start">
-                                <p class="h5 card-title lead text-success">@prod.Name</p>
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-1">
+                        <img src="@(!string.IsNullOrEmpty(prod.ImageUrl) ? prod.ImageUrl : "images/default.png")"
+                                alt="@prod.Name"
+                                class="card-img-top p-2"
+                                style="height: 220px; object-fit: cover; width: 100%;"
+                                loading="lazy" decoding="async"
+                                onerror="this.onerror=null; this.src='/images/default.png';" />
+                        <div class="card-body d-flex flex-column px-2">
+                            <div class="row">
+                                <div class="col text-start">
+                                    <p class="h3 card-title text-success text-truncate">@prod.Name</p>
+                                </div>
+                                @if (!string.IsNullOrEmpty(prod.Tag))
+                                {
+                                    <div class="col text-end">
+                                        <span class="badge bg-warning text-dark ms-2">@prod.Tag</span>
+                                    </div>
+                                }
                             </div>
-                                
-                            @if (!string.IsNullOrEmpty(prod.Tag))
-                            {
-                                <div class="col text-end">
-                                    <i class="bi bi-star bg-warning p-2">
-                                        @prod.Tag
+                            <div class="description">
+                                <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
+                            </div>
+                        </div>
+                        <div class="mt-auto p-2" @onclick="()=>AddOrderItem(prod)">
+                            <div class="row">
+                                <div class="col-6 text-start px-3 h4">
+                                    @prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
+                                </div>
+                                <div class="col-6 text-end px-3">
+                                    <i class="bi bi-cart3 btn btn-success">
+                                        Add
                                     </i>
                                 </div>
-                            }
-                        </div>
-                        
-                        <div class="description">
-                            <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
-                        </div>
-                    </div>
-                            
-                    <div class="card-footer border-0 " @onclick="()=>AddOrderItem(prod)">
-                        <div class="row">
-                            <div class="col-6 text-start px-3 h5">
-                                @prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
-                            </div>
-                            <div class="col-6 text-end px-3">
-                                <i class="bi bi-cart3 btn btn-success">
-                                    Add
-                                </i>
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
             }
+            
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center m-4">
+            <i class="bi bi-info-circle"></i> No products found.
+        </div>
+    }
+
+</div>
 }
 
 @code {
-
     private IEnumerable<Product> Products = new List<Product>();
     private IEnumerable<Category> Categories = new List<Category>();
     private IEnumerable<Product> FilteredProducts = new List<Product>();
@@ -181,15 +179,13 @@ else
 
     private async Task AddOrderItem(Product prod)
     {
-        if ( ! await _Common.IsUserAuthenticated())
+        if (!await _Common.IsUserAuthenticated())
         {
-            _NavigationManager.NavigateTo("account/login", true); // Need to forceLoad = "true" for the page otherwise gets  Not Found!
+            _NavigationManager.NavigateTo("account/login", true);
         }
         else
         {
-            //Add Item to Cart
             var userId = await _Common.GetUserId();
-
             var result = await _cartRepos.UpdateCartAsync(userId, prod.Id, 1);
             _SharedStateService.CartCount = await _cartRepos.GetTotalCartAsync(userId);
 
