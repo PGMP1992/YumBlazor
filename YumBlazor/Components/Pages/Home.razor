@@ -23,26 +23,26 @@
 }
 else
 {
-    <div class="container-fluid px-3">
-        @* Search Box *@
-        <div class="bg-secondary py-4">
+    <div class="container-fluid p-0">
+        @* Search Box ======================================================= *@
+        <div class="bg-secondary-subtle py-4">
             <div class="mx-auto d-flex align-items-center" style="max-width: 400px;">
                 <div class="input-group">
                     <input type="text" class="form-control rounded-pill"
                            @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
                            placeholder="Search the menu!" />
-                    <span class="input-group-text bg-transparent text-white border-0">
+                    <span class="input-group-text bg-transparent border-0">
                         <i class="bi bi-search"></i>
                     </span>
-                    <button class="btn btn-outline-secondary text-white rounded-pill" type="button" @onclick="ClearSearch">
+                    <button class="btn btn-outline-secondary-subtle rounded-pill" type="button" @onclick="ClearSearch">
                         <i class="bi bi-x-circle"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        @* Categories *@
-        <div class="content px-3 my-2">
+        @* Categories =======================================================*@
+        <div class="my-2">
             <ul class="nav justify-content-center">
                 <li class="nav-item">
                     <span class="nav-link @GetActiveTab(0)" style="cursor: pointer" @onclick="()=>FilterProducts(0)">All</span>
@@ -57,19 +57,20 @@ else
             </ul>
         </div>
 
-        @* Products *@
-    @if (FilteredProducts.Any())
-    {
-        <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-6 g-3">
+        @* Products =======================================================*@
+        @if (FilteredProducts.Any())
+        {
+            
+            <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-6 g-3">
             
             @foreach (var prod in FilteredProducts)
             {
                 <div class="col">
-                    <div class="card h-100 shadow-sm border-1">
+                    <div class="card h-100 shadow-sm">
                         <img src="@(!string.IsNullOrEmpty(prod.ImageUrl) ? prod.ImageUrl : "images/default.png")"
                                 alt="@prod.Name"
                                 class="card-img-top p-2"
-                                style="height: 220px; object-fit: cover; width: 100%;"
+                                style="height: 250px; width:250px; object-fit: cover; width: 100%;"
                                 loading="lazy" decoding="async"
                                 onerror="this.onerror=null; this.src='/images/default.png';" />
                         <div class="card-body d-flex flex-column px-2">
@@ -112,8 +113,7 @@ else
             <i class="bi bi-info-circle"></i> No products found.
         </div>
     }
-
-</div>
+    </div>
 }
 
 @code {

@@ -11,9 +11,9 @@
 @inject IdentityRedirectManager RedirectManager
 
 <PageTitle>Log in</PageTitle>
-<div class="mt-5">
+<div class="mt-5" >
     <div class="h-100 d-flex align-items-center justify-content-center">
-        <div class="card bg-light" style="width:28rem">
+        <div class="card shadow" style="width:28rem">
             <div class= "card-body">
                 <h5 class="card-title text-center display-6">Log In</h5>
                 <StatusMessage Message="@errorMessage" />
@@ -49,8 +49,7 @@
                         </p>
                     </div>
                 </EditForm>
-                <br />
-                <ExternalLoginPicker />
+                @* <ExternalLoginPicker /> *@
                 <hr />
                 <p class="text-center mt-2">
                     <small class="text-muted-center">

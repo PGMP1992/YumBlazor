@@ -24,9 +24,4 @@
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <!--<Folder Include="Models\ViewModels\" />
-    <Folder Include="wwwroot\images\product\" />-->
-  </ItemGroup>
-
 </Project>
