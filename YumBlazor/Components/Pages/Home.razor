@@ -23,7 +23,7 @@
 }
 else
 {
-    <div class="container-fluid p-0">
+    <div class="container-fluid m-0 p-0">
         @* Search Box ======================================================= *@
         <div class="bg-secondary-subtle py-4">
             <div class="mx-auto d-flex align-items-center" style="max-width: 400px;">
@@ -61,7 +61,7 @@ else
         @if (FilteredProducts.Any())
         {
             
-            <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-6 g-3">
+            <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-6 g-0">
             
             @foreach (var prod in FilteredProducts)
             {
@@ -86,10 +86,10 @@ else
                                 }
                             </div>
                             <div class="description">
-                                <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
+                                <p class="card-text text-secondary">@((MarkupString)@prod.Description)</p>
                             </div>
                         </div>
-                        <div class="mt-auto p-2" @onclick="()=>AddOrderItem(prod)">
+                        <div class="card-footer border-0" @onclick="()=>AddOrderItem(prod)">
                             <div class="row">
                                 <div class="col-6 text-start px-3 h4">
                                     @prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))

@@ -1,40 +1,39 @@
 ﻿/* Hover effect styling for interactivity */
+.card {
+    border: 1px ridge;
+    background: rgba(233, 236, 241, 0.959);
+    transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
+    /* Optional: add border-radius for a modern look */
+    /*border-radius: 10px;*/
+    overflow: hidden;
+    position: relative;
+}
 
 .card:hover {
-    box-shadow: 0 4px 8px rgb(0, 1, 39, 0.31);
-    transform: scale(1.02);
-    transition: all 0.3s ease;
-    background-image: linear-gradient(to right, rgba(243, 232, 232, 0.918), rgba(255, 0, 0, 0));
-    img {
-        transform: scale(1.05);
-        transition: all 0.3s ease;
-    }
+    /*box-shadow: 0 4px 16px rgba(0, 1, 39, 0.18);*/
+    background: #fff;
+    /*transform: scale(1.02);*/
 }
 
-/* -------------------------------------------
-    Code below to start Description as hidden and showing on hover 
-   -----------------------------------------*/
-
-/*    .card {
-    position: relative;
-    overflow: hidden;
-
-.description {
-    display: none;
-    position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px;
-    text-align: left;
-    transition: all 0.3s ease;
+/* Card image hover effect */
+.card:hover img {
+    transform: scale(1.05);
+    transition: transform 0.3s;
 }
 
-.card:hover .description {
-    display: block;
-}*/
+/* Card footer hover effect */
+.card-footer {
+    border: 0;
+    background: none;
+    transition: background-image 0.3s;
+}
 
-    
+.card:hover .card-footer {
+    background-image: linear-gradient(to right, rgba(248, 154, 154, 0.92), rgba(255, 0, 0, 0));
+}
+
+/* Optional: smooth image scaling on non-hover as well */
+.card img {
+    transition: transform 0.3s;
+}
 

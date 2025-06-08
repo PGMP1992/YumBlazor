@@ -10,11 +10,13 @@ html, body, page {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: white;
+    
 }
 
 main {
     flex: 1 0 auto;
-}
+   }
 
 
 .blazor-error-boundary {
@@ -49,6 +51,8 @@ a, .btn-link {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
+    /*background: linear-gradient(90deg, #007bff, #5b3b3b); 
+    border: none;*/
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -57,6 +61,7 @@ a, .btn-link {
 
 .content {
     padding-top: 1.1rem;
+    
 }
 
 h1:focus {
@@ -89,20 +94,6 @@ h1:focus {
     border-color: #929292;
 }
 
-/*
-.jumbotron-custom {
-    background: linear-gradient(to right, #2c536499, #203a4399, #0f202799), url(https://dotnetmasteryimages.blob.core.windows.net/yumblazor/searchImage.jpg) center;
-    background-size: cover;
-    width: 100%;
-    height: 50vh;
-    overflow: hidden;
-}
-*/
-
-.img-rounded {
-    border-radius: 50%;
-}
-
 span.nav-link {
     color: #212529 !important;
 }
@@ -121,13 +112,9 @@ span.nav-link {
 }
 
 .card {
-    border: 1px ridge ;
+    border: 1px ridge;
+    /*background: linear-gradient(90deg, #007bff, #5b3b3b);*/
 }
-
-.card-header, .card-body, .card-footer {
-    border: 0px;
-    background-color : white;
-   }
 
 .footer {
     flex-shrink: 0;
@@ -141,12 +128,12 @@ span.nav-link {
     margin-top: 0;
 }
 
-.account-bg {
+/*.account-bg {
     min-height: 100vh;
     background: url('/images/table.webp') no-repeat center center fixed;
     
-    /*background-size:unset;
+    background-size:unset;
     display: flex;
     align-items: center;
-    justify-content: center;*/
-}
+    justify-content: center;
+}*/
