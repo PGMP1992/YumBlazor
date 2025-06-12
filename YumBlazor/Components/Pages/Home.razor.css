@@ -1,12 +1,10 @@
 ﻿/* Hover effect styling for interactivity */
 .card {
-    border: 1px ridge;
-    background: rgba(233, 236, 241, 0.959);
+    background: white;
     transition: box-shadow 0.3s, background 0.3s, transform 0.3s;
-    /* Optional: add border-radius for a modern look */
-    /*border-radius: 10px;*/
+    border-radius: 0px;
     overflow: hidden;
-    position: relative;
+    /*position: relative;*/
 }
 
 .card:hover {

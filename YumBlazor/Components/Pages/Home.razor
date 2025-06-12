@@ -23,19 +23,42 @@
 }
 else
 {
-    <div class="container-fluid m-0 p-0">
+    <div class="container py-5">
+
+        @* Banner ======================================================= *@
+        <div class="row">
+            <div class="mx-auto d-flex align-items-center" style="max-width: 100%;">
+                <img src="./images/table.webp"
+                     alt="Banner"
+                     class="object-fit-cover rounded-3"
+                     style="height: 300px; width:100%; object-fit:cover;"
+                     loading="lazy" decoding="async"
+                     onerror="this.onerror=null; this.src='/images/default.png';" />
+            
+        </div>
+            <div class="row py-3">
+                <h2><b>Yumm</b> </h2>
+            </div>
+            <div class="row">
+                <h5>Lingsgatan 3, Ystad, Skane, Sweden</h5>
+            </div>
+            <div class="row">
+                <h5>Online ordering hours: 5:30PM - 9:45PM</h5>
+            </div>
+        </div>
+
         @* Search Box ======================================================= *@
-        <div class="bg-secondary-subtle py-4">
+        <div class="bg-dark py-3 rounded-3">
             <div class="mx-auto d-flex align-items-center" style="max-width: 400px;">
                 <div class="input-group">
-                    <input type="text" class="form-control rounded-pill"
+                    <input type="text" class="form-control rounded-pill "
                            @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
                            placeholder="Search the menu!" />
-                    <span class="input-group-text bg-transparent border-0">
-                        <i class="bi bi-search"></i>
+                    <span class="input-group-text border-0 bg-transparent">
+                        <i class="bi bi-search text-white"></i>
                     </span>
-                    <button class="btn btn-outline-secondary-subtle rounded-pill" type="button" @onclick="ClearSearch">
-                        <i class="bi bi-x-circle"></i>
+                    <button class="btn btn-outline-dark rounded-pill" type="button" @onclick="ClearSearch">
+                        <i class="bi bi-x-circle text-light"></i>
                     </button>
                 </div>
             </div>
@@ -60,52 +83,58 @@ else
         @* Products =======================================================*@
         @if (FilteredProducts.Any())
         {
-            
-            <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-6 g-0">
-            
-            @foreach (var prod in FilteredProducts)
-            {
-                <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img src="@(!string.IsNullOrEmpty(prod.ImageUrl) ? prod.ImageUrl : "images/default.png")"
-                                alt="@prod.Name"
-                                class="card-img-top p-2"
-                                style="height: 250px; width:250px; object-fit: cover; width: 100%;"
-                                loading="lazy" decoding="async"
-                                onerror="this.onerror=null; this.src='/images/default.png';" />
-                        <div class="card-body d-flex flex-column px-2">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 g-3">
+                    
+                    @foreach (var prod in FilteredProducts)
+                    {
+                        <div class="card">
                             <div class="row">
-                                <div class="col text-start">
-                                    <p class="h3 card-title text-success text-truncate">@prod.Name</p>
-                                </div>
-                                @if (!string.IsNullOrEmpty(prod.Tag))
-                                {
-                                    <div class="col text-end">
-                                        <span class="badge bg-warning text-dark ms-2">@prod.Tag</span>
+                                <div class="col-8 p-3"> 
+                                    <div class="row">
+                                        <h6 class="text-truncate"><b>@prod.Name</b></h6>
                                     </div>
-                                }
-                            </div>
-                            <div class="description">
-                                <p class="card-text text-secondary">@((MarkupString)@prod.Description)</p>
-                            </div>
-                        </div>
-                        <div class="card-footer border-0" @onclick="()=>AddOrderItem(prod)">
-                            <div class="row">
-                                <div class="col-6 text-start px-3 h4">
-                                    @prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
+                                    <div class="row col-4 px-2">
+                                        @if ( !string.IsNullOrEmpty(prod.Tag))
+                                        {
+                                            <p class="badge bg-success-subtle text-success text-body-emphasis">
+                                                <i class="bi bi-plus-circle-fill"></i>
+                                                @prod.Tag
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p></p>        
+                                        }
+
+                                    </div>
+                                    <div class="row">
+                                        <p class="card-text text-secondary">@((MarkupString)@prod.Description)</p>
+                                    </div>
+                                    <div class="row" @onclick="()=>AddOrderItem(prod)">
+                                            <div class="col-6 text-secondary h6">
+                                                <b>@prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))</b>
+                                            </div>
+                                            <div class="col-6 text-end px-3">
+                                                <i class="bi bi-plus-circle" style="font-size: 2rem;">
+                                                </i>
+                                            </div>
+                                    </div>
                                 </div>
-                                <div class="col-6 text-end px-3">
-                                    <i class="bi bi-cart3 btn btn-success">
-                                        Add
-                                    </i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-            
-        </div>
+                                <div class="col-3">
+                                    <img src="@(!string.IsNullOrEmpty(prod.ImageUrl) ? prod.ImageUrl : "images/default.png")"
+                                         alt="@prod.Name"
+                                         class="card-img-top object-fit-cover"
+                                         style="height: 145px; width:145px;"
+                                         loading="lazy" decoding="async"
+                                         onerror="this.onerror=null; this.src='/images/default.png';" 
+                                    />
+                                </div> @* col *@
+                            </div> @* row *@
+                        </div> @* card *@
+                    }
+                </div> @* row cols *@
+            </div> @* container *@
     }
     else
     {
