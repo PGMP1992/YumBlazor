@@ -24,33 +24,35 @@
 }
 else
 {
+    <div class="container">
+    
     @if(CartList.Any()) 
     {
         <div class="row w-100">
             <div class="col-lg-6">
-                <div class="container p-4 m-2">
-                    <h4 class="text-center text-success display-6">
+                <div class="container p-4">
+                    <h3>
                         Cart Summary
-                    </h4>
+                    </h3>
 
                     @foreach( var cart in CartList) {
 
-                        <div class="d-flex p-2 m-2">
+                        <div class="d-flex my-2">
                             <div class="card flex-row w-100">
                                 <img class="card-img-left" style="width: 120px;" src="@(cart.Product.ImageUrl ?? "/images/default.png")">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h4 class="">
+                                        <h5>
                                             @cart.Product.Name
-                                        </h4>
-                                        <h4>
-                                            @cart.Product.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"));
-                                        </h4>
+                                        </h5>
+                                        <h5>
+                                            @cart.Product.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
+                                        </h5>
                                     </div>
                                     <div class="flex-fill">
-                                        <h4 class="text-danger">
-                                            @((cart.Product.Price * cart.Count).ToString("C", CultureInfo.GetCultureInfo("se-SE")));
-                                        </h4>
+                                        <h5 class="text-dark">
+                                            @((cart.Product.Price * cart.Count).ToString("C", CultureInfo.GetCultureInfo("se-SE")))
+                                        </h5>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex justify-content-between g-0">
@@ -62,13 +64,13 @@ else
                                             </span>
                                             <span @onclick="()=>UpdateCartItem(cart.ProductId, 1)">
                                                 <i class="bi bi-plus-circle-fill btn text-secondary"></i>
-                                            </span>
+                                            </span >
+                                                
                                         </div>
-
-                                        <button class="btn btn-danger"
-                                        @onclick="()=>UpdateCartItem(cart.ProductId, -10000)">
-                                            Remove
-                                        </button>
+                                            <button class="btn btn-dark" @onclick="() => UpdateCartItem(cart.ProductId, -10000)">
+                                                <i class="bi bi-trash3-fill" style="cursor:pointer;"></i>
+                                            </button>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -77,46 +79,40 @@ else
                 </div>
             </div>
             <div class="col-lg-6 col-12 p-4">
-                <div class="card">
-                    <div class="card-header text-success text-center display-6">
+                <div class="card border border-0">
+                    <div class=" h3 card-header bg-white border border-0">
                         Pickup Details
                     </div>
                     <EditForm Model="OrderHeader" FormName="CartForm" OnValidSubmit="ProcessOrderCreation">
                         <DataAnnotationsValidator />
                         <div class="card-body">
 
-                            <div class="card-body">
                                 <div class="form-group">
-                                    <label>Name</label>
+                                    <label class="text-secondary">Name</label>
                                     <InputText @bind-Value="OrderHeader.Name" type="text" class="form-control" />
                                     <ValidationMessage For="@(()=> OrderHeader.Name)" />
                                 </div>
                                 <div class="form-group">
-                                    <label>Email</label>
+                                    <label class="text-secondary">Email</label>
                                     <InputText @bind-Value="OrderHeader.Email" type="text" class="form-control" />
                                     <ValidationMessage For="@(()=> OrderHeader.Email)" />
                                 </div>
                                 <div class="form-group">
-                                    <label>Phone</label>
+                                     <label class="text-secondary">Phone</label>
                                     <InputText @bind-Value="OrderHeader.PhoneNumber" type="text" class="form-control" />
                                     <ValidationMessage For="@(()=> OrderHeader.PhoneNumber)" />
                                 </div>
-                            </div>
 
-                            <div class="card mt-4 bg-light">
-                                <div class="card-body">
-                                    <h4>
-                                        Grand Total: @OrderHeader.Total.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
-                                    </h4>
-                                    <h4>
-                                        No. of Items: @TotalItems 
-                                    </h4>
-                                </div>
-                            </div>
+                                <h5 class="mt-3">
+                                    Grand Total: @OrderHeader.Total.ToString("C", CultureInfo.GetCultureInfo("se-SE"))
+                                </h5>
+                                <h5>
+                                    No. of Items: @TotalItems 
+                                </h5>
                         </div>
 
-                        <button type="submit" class="btn btn-success m-4">
-                            Looks Good? Place Order!
+                        <button type="submit" class="btn btn-dark mx-3">
+                            Place Order
                         </button>
                     </EditForm>
                 </div>
@@ -131,6 +127,7 @@ else
             </div>
         </div>
     }
+    </div>
 }
 
 

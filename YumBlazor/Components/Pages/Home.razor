@@ -84,54 +84,53 @@ else
         @if (FilteredProducts.Any())
         {
             <div class="container">
-                <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2 g-3">
+                <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 g-3">
                     
                     @foreach (var prod in FilteredProducts)
                     {
-                        <div class="card">
-                            <div class="row">
-                                <div class="col-8 p-3"> 
-                                    <div class="row">
-                                        <h6 class="text-truncate"><b>@prod.Name</b></h6>
-                                    </div>
-                                    <div class="row col-4 px-2">
-                                        @if ( !string.IsNullOrEmpty(prod.Tag))
-                                        {
-                                            <p class="badge bg-success-subtle text-success text-body-emphasis">
-                                                <i class="bi bi-plus-circle-fill"></i>
-                                                @prod.Tag
-                                            </p>
-                                        }
-                                        else
-                                        {
-                                            <p></p>        
-                                        }
+                        <div class="d-flex">
+                            <div class="row w-100 border border-1">
 
-                                    </div>
-                                    <div class="row">
-                                        <p class="card-text text-secondary">@((MarkupString)@prod.Description)</p>
-                                    </div>
-                                    <div class="row" @onclick="()=>AddOrderItem(prod)">
-                                            <div class="col-6 text-secondary h6">
-                                                <b>@prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))</b>
-                                            </div>
-                                            <div class="col-6 text-end px-3">
-                                                <i class="bi bi-plus-circle" style="font-size: 2rem;">
-                                                </i>
+                                <div class="col-8">
+                                    <div class="card h-100 border border-0">
+                                        <div class="card-body"> 
+                                            <h6 class="text-truncate mb-0"><b>@prod.Name</b></h6>
+                                            @if ( !string.IsNullOrEmpty(prod.Tag))
+                                            {
+                                                <span class="badge bg-success-subtle text-success text-body-emphasis ">
+                                                    <i class="bi bi-plus-circle-fill"></i>
+                                                    @prod.Tag
+                                                </span>
+                                            }
+                                            @if (!string.IsNullOrEmpty(prod.Description))
+                                            {
+                                                <p class="text-secondary mb-0">@((MarkupString)@prod.Description)</p>
+                                            }
+                                            
+                                        </div>
+                                        @* Works ------------------- *@
+                                            <div class="card-footer border-0 bg-white py-0" @onclick="() => AddOrderItem(prod)">
+                                                <div class="col text-secondary h6" style="cursor:pointer;">
+                                                        <b>@prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))</b>
+                                                        <i class="bi bi-plus-circle" style="font-size: 1.2rem;"></i>
+                                                </div>
                                             </div>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-4">
+                                    <div class="d-flex justify-content-end ">
                                     <img src="@(!string.IsNullOrEmpty(prod.ImageUrl) ? prod.ImageUrl : "images/default.png")"
                                          alt="@prod.Name"
-                                         class="card-img-top object-fit-cover"
-                                         style="height: 145px; width:145px;"
+                                         class="product-card-img object-fit-cover"
                                          loading="lazy" decoding="async"
-                                         onerror="this.onerror=null; this.src='/images/default.png';" 
-                                    />
+                                         onerror="this.onerror=null; this.src='/images/default.png';"
+                                             @onclick="() => AddOrderItem(prod)" />
                                 </div> @* col *@
+                                </div>
+                            </div>
+                            
                             </div> @* row *@
-                        </div> @* card *@
+                            
                     }
                 </div> @* row cols *@
             </div> @* container *@
