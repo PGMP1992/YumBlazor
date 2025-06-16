@@ -64,6 +64,7 @@ builder.Services.AddAuthentication(options =>
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString), ServiceLifetime.Transient);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -106,18 +107,18 @@ app.MapAdditionalIdentityEndpoints();
 //SeedDatabase();
 app.Run();
 
-//void SeedDatabase()
-//{
-//    using (var scope = app.Services.CreateScope())
-//    {
-//        try
-//        {
-//            var DbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-//            DbInitializer.Initialize();
-//        }
-//        catch (Exception ex)
-//        {
-//            throw;
-//        }
-//    }
-//}
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        try
+        {
+            var DbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+            DbInitializer.Initialize();
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+    }
+}

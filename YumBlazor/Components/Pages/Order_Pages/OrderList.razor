@@ -15,6 +15,9 @@
 }
 else
 {
+    
+    <div class="container">
+    
     @if (! Orders.Any())
     {
         <div class="p-2">
@@ -25,7 +28,8 @@ else
     } 
     else
     { 
-        <div class="card shadow">
+        @* Header ======================== *@
+        <div class="card shadow mt-5">
             <div class="card-header bg-black py-3">
                 <div class="row">
                     <div class="col-12 text-center">
@@ -34,11 +38,13 @@ else
                 </div>
             </div>
 
+
             <div class="card-body p-4">
+                @* Radzen ================================================== *@
                 <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced"
-                AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
-                ShowPagingSummary="true" Data="@Orders" ColumnWidth="300px"
-                LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
+                    AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+                    ShowPagingSummary="true" Data="@Orders" ColumnWidth="300px"
+                    LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
                     <Columns>
                         <RadzenDataGridColumn Property="Id" Filterable="true" Title="Id" Frozen="true" Width="70px" />
                         <RadzenDataGridColumn Property="OrderDate" Title="Date" FormatString="{0:d}" Width="100px" />
@@ -46,28 +52,30 @@ else
                         <RadzenDataGridColumn Property="Status" Title="Status" Width="100px" />
                         @if (IsAdmin == true)
                         {
-                            @*  <RadzenDataGridColumn Property="UserId" Title="User" Width="120px" /> *@
                             <RadzenDataGridColumn Property="Name" Title="Name" Frozen="false" Width="100px" />
                             <RadzenDataGridColumn Property="PhoneNumber" Title="Phone" Width="100px" />
                             <RadzenDataGridColumn Property="Email" Title="Email" Width="120px" />
                         }
                         <RadzenDataGridColumn Title="Action" Sortable="true" Filterable="true" Width="80px" TextAlign="TextAlign.Center">
                             <Template Context="Orders">
-                                <RadzenButton Shade="Shade.Lighter" Text="Details" ButtonStyle="ButtonStyle.Primary"
-                                Click="@(()=>_NavigationManager.NavigateTo($"order/details/{Orders.Id}"))"></RadzenButton>
+                                <RadzenButton Shade="Shade.Dark" Text="Details" ButtonStyle="ButtonStyle.Dark"
+                                    Click="@(()=>_NavigationManager.NavigateTo($"order/details/{Orders.Id}"))"></RadzenButton>
                             </Template>
                         </RadzenDataGridColumn>
                     </Columns>
-                </RadzenDataGrid>
-            </div>
-        </div>
+                </RadzenDataGrid> 
+
+                @* Default Grid ==================================================
                 @* <div class="table-responsive">
                     <table class="table table-sm-3 table-hover">
                         <thead class="table-primary">
                             <tr>
                                 <th>Id</th>
-                                <th>Name</th>
-                                <th>Email</th>
+                                @if (IsAdmin == true)
+                                {
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                }
                                 <th>Total</th>
                                 <th>Status</th>
                                 <th></th>
@@ -78,8 +86,11 @@ else
                             {
                                 <tr>
                                     <td>@obj.Id</td>
-                                    <td>@obj.Name</td>
-                                    <td>@obj.Email</td>
+                                    @if (IsAdmin == true)
+                                    {
+                                        <td>@obj.Name</td>
+                                        <td>@obj.Email</td>
+                                    }
                                     <td>@obj.Total.ToString("C", CultureInfo.GetCultureInfo("se-SE"))</td>
                                     <td>@obj.Status</td>
                                     <td>
@@ -93,7 +104,14 @@ else
                         </tbody>
                     </table>
                 </div> *@
-    }    
+            </div>
+
+        </div>
+                
+    }
+    
+    </div>
+    
 }
 
 @code {
