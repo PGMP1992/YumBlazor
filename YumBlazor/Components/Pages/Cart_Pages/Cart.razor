@@ -60,18 +60,18 @@ else
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex justify-content-between g-0">
                                             <span @onclick="()=>UpdateCartItem(cart.ProductId, -1)">
-                                                <i class="bi bi-dash-circle-fill btn text-secondary"></i>
+                                                    <i class="bi bi-dash-circle-fill btn text-secondary" title="Remove one"></i>
                                             </span>
                                             <span class="ml-1 me-1">
                                                 <b class="lead">@cart.Count</b>
                                             </span>
                                             <span @onclick="()=>UpdateCartItem(cart.ProductId, 1)">
-                                                <i class="bi bi-plus-circle-fill btn text-secondary"></i>
+                                                    <i class="bi bi-plus-circle-fill btn text-secondary" title="Add another"></i>
                                             </span >
                                                 
                                         </div>
                                             <button class="btn btn-dark" @onclick="() => UpdateCartItem(cart.ProductId, -10000)">
-                                                <i class="bi bi-trash3-fill" style="cursor:pointer;"></i>
+                                                <i class="bi bi-trash3-fill" style="cursor:pointer;" title="Remove"></i>
                                             </button>
                                         
                                     </div>

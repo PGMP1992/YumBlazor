@@ -58,7 +58,7 @@ else
                         }
                         <RadzenDataGridColumn Title="Action" Sortable="true" Filterable="true" Width="80px" TextAlign="TextAlign.Center">
                             <Template Context="Orders">
-                                <RadzenButton Shade="Shade.Dark" Text="Details" ButtonStyle="ButtonStyle.Dark"
+                                <RadzenButton Shade="Shade.Dark" Text="Details" ButtonStyle="ButtonStyle.Dark" title="View Order Details"
                                     Click="@(()=>_NavigationManager.NavigateTo($"order/details/{Orders.Id}"))"></RadzenButton>
                             </Template>
                         </RadzenDataGridColumn>

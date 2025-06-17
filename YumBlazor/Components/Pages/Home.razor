@@ -56,10 +56,10 @@ else
                            @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterByName"
                            placeholder="Search the menu!" />
                     <span class="input-group-text border-0 bg-transparent">
-                        <i class="bi bi-search text-white"></i>
+                        <i class="bi bi-search text-white" title="Search the menu"></i>
                     </span>
                     <button class="btn btn-outline-dark rounded-pill" type="button" @onclick="ClearSearch">
-                        <i class="bi bi-x-circle text-light"></i>
+                        <i class="bi bi-x-circle text-light" title="Clear search"></i>
                     </button>
                 </div>
             </div>
@@ -111,8 +111,8 @@ else
                                     @* Works ------------------- *@
                                         <div class="card-footer border-0 bg-white py-0" @onclick="() => AddOrderItem(prod)">
                                             <div class="col text-secondary h6" style="cursor:pointer;">
-                                                    <b>@prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))</b>
-                                                    <i class="bi bi-plus-circle" style="font-size: 1.2rem;"></i>
+                                                <b>@prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))</b>
+                                            &nbsp;&nbsp;<i class="bi bi-plus-circle" style="font-size: 1.5rem;" title="Add to cart"></i>
                                             </div>
                                         </div>
                                 </div>
@@ -121,6 +121,7 @@ else
                                 <div class="d-flex justify-content-end ">
                                 <img src="@(!string.IsNullOrEmpty(prod.ImageUrl) ? prod.ImageUrl : "images/default.png")"
                                         alt="@prod.Name"
+                                         title="Add to cart"
                                         class="product-card-img object-fit-cover"
                                         loading="lazy" decoding="async"
                                         onerror="this.onerror=null; this.src='/images/default.png';"
