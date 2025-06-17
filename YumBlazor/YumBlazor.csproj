@@ -4,11 +4,9 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <!--<UserSecretsId>aspnet-YumBlazor-258a1bd0-c8ae-4e53-bab2-c43b18c3c675</UserSecretsId>-->
 	  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
 	  <ServerGarbageCollection>false</ServerGarbageCollection>
-	  <UserSecretsId>0fd3b4ef-106c-46f3-a78f-a77656ffa091</UserSecretsId>
-
+	  <!--<UserSecretsId>0fd3b4ef-106c-46f3-a78f-a77656ffa091</UserSecretsId>-->
   </PropertyGroup>
 
   <ItemGroup>
