@@ -373,3 +373,4 @@ FodyWeavers.xsd
 /YumBlazor/wwwroot/images/product/rasmalai.jpeg
 /YumBlazor/wwwroot/images/product/samosa.jpg
 /YumBlazor/wwwroot/images/product/spring rolls.jpg
+*.json
