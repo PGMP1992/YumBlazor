@@ -31,9 +31,10 @@ else
                 <img src="./images/table.webp"
                      alt="Banner"
                      class="object-fit-cover rounded-3"
-                     style="height: 300px; width:100%; object-fit:cover;"
-                     loading="lazy" decoding="async"
+                     height=300 width="100%"
+                     decoding="async"
                      onerror="this.onerror=null; this.src='/images/default.png';" />
+                @* loading="lazy"  *@
             
             </div>
 
@@ -49,7 +50,7 @@ else
         </div>
 
         @* Search Box ======================================================= *@
-        <div class="bg-dark py-3 rounded-3">
+        <div class="bg-dark p-3 rounded-3">
             <div class="mx-auto d-flex align-items-center" style="max-width: 400px;">
                 <div class="input-group">
                     <input type="text" class="form-control rounded-pill "
@@ -98,7 +99,7 @@ else
                                         @if ( !string.IsNullOrEmpty(prod.Tag))
                                         {
                                             <span class="badge bg-success-subtle text-success text-body-emphasis ">
-                                                <i class="bi bi-plus-circle-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
                                                 @prod.Tag
                                             </span>
                                         }
@@ -108,30 +109,33 @@ else
                                         }
                                             
                                     </div>
-                                    @* Works ------------------- *@
-                                        <div class="card-footer border-0 bg-white py-0" @onclick="() => AddOrderItem(prod)">
-                                            <div class="col text-secondary h6" style="cursor:pointer;">
-                                                <b>@prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))</b>
-                                            &nbsp;&nbsp;<i class="bi bi-plus-circle" style="font-size: 1.5rem;" title="Add to cart"></i>
-                                            </div>
-                                        </div>
+                                    <div class="col text-secondary h6 mx-3" 
+                                        style="cursor:pointer;"
+                                        title="Add to Cart"
+                                        @onclick="() => AddOrderItem(prod)">
+                                        <b>@prod.Price.ToString("C", CultureInfo.GetCultureInfo("se-SE"))</b>
+                                            
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-4">
-                                <div class="d-flex justify-content-end ">
-                                <img src="@(!string.IsNullOrEmpty(prod.ImageUrl) ? prod.ImageUrl : "images/default.png")"
-                                        alt="@prod.Name"
-                                         title="Add to cart"
-                                        class="product-card-img object-fit-cover"
-                                        loading="lazy" decoding="async"
-                                        onerror="this.onerror=null; this.src='/images/default.png';"
-                                            @onclick="() => AddOrderItem(prod)" />
-                            </div> @* col *@
+                                <div class="position-relative d-flex justify-content-end">
+                                    <img src="@(!string.IsNullOrEmpty(prod.ImageUrl) ? prod.ImageUrl : "images/default.png")"
+                                         alt="@prod.Name"
+                                         class="product-card-img object-fit-cover"
+                                         loading="lazy" decoding="async"
+                                         onerror="this.onerror=null; this.src='/images/default.png';"
+                                         width=100 height=100
+                                         />
+                                    <span class="position-absolute bottom-0 end-0 m-2" style="cursor:pointer;" title="Add to cart"
+                                          @onclick="() => AddOrderItem(prod)">
+                                        <i class="bi bi-plus-circle" style="font-size: 2rem; color:  white;"></i>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
                             
                         </div> @* row *@
-                            
+                </div>            
                 }
             </div> @* row cols *@
     }
