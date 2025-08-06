@@ -131,6 +131,13 @@ span.nav-link {
     margin-top: 0;
 }
 
+svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    vertical-align: middle;
+}
+
 /*.account-bg {
     min-height: 100vh;
     background: url('/images/table.webp') no-repeat center center fixed;

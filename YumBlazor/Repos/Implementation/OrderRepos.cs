@@ -5,14 +5,14 @@ using YumBlazor.Repos.Interfaces;
 
 namespace YumBlazor.Repos.Implementation
 {
-    public class OrderRepos : IOrderRepos
+    public class OrderRepos(ApplicationDbContext _db) : IOrderRepos
     {
-        private readonly ApplicationDbContext _db;
+        //private readonly ApplicationDbContext _db;
 
-        public OrderRepos(ApplicationDbContext db)
-        {
-            _db = db;
-        }
+        //public OrderRepos(ApplicationDbContext db)
+        //{
+        //    _db = db;
+        //}
 
         public async Task<OrderHeader> CreateAsync(OrderHeader orderHeader)
         {

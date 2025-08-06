@@ -33,6 +33,7 @@ builder.Services.AddScoped<ICategoryRepos, CategoryRepos>();
 builder.Services.AddScoped<IProductRepos, ProductRepos>();
 builder.Services.AddScoped<IShoppingCartRepos, ShoppingCartRepos>();
 builder.Services.AddScoped<IOrderRepos, OrderRepos>();
+
 // Utilities - Services 
 builder.Services.AddScoped<ICommon, Common>();
 
@@ -107,18 +108,18 @@ app.MapAdditionalIdentityEndpoints();
 //SeedDatabase();
 app.Run();
 
-void SeedDatabase()
-{
-    using (var scope = app.Services.CreateScope())
-    {
-        try
-        {
-            var DbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-            DbInitializer.Initialize();
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
-    }
-}
+//void SeedDatabase()
+//{
+//    using (var scope = app.Services.CreateScope())
+//    {
+//        try
+//        {
+//            var DbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+//            DbInitializer.Initialize();
+//        }
+//        catch (Exception ex)
+//        {
+//            throw;
+//        }
+//    }
+//}

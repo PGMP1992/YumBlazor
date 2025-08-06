@@ -12,15 +12,16 @@ namespace YumBlazor.Data
         public required DbSet<OrderHeader> OrderHeaders { get; set; }
         public required DbSet<OrderDetail> OrderDetails { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.Entity<Category>().HasData(
-                new Category { Id = 1, Name = "Appetizer" },
-                new Category { Id = 2, Name = "Entree" },
-                new Category { Id = 3, Name = "Dessert" }
+                new Category { Id = 1, Name = "Starter" },
+                new Category { Id = 2, Name = "Main" },
+                new Category { Id = 3, Name = "Dessert" },
+                new Category { Id = 4, Name = "Drinks" }
+
             );
         }
     }

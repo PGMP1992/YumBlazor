@@ -15,38 +15,62 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill" aria-hidden="true"></span> Home
+                @* <span class="bi bi-house-door-fill" aria-hidden="true"></span> *@
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill mt-4" viewBox="0 0 16 16">
+                    <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5" />
+                </svg>
+                Home
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link p-2" href="/category" >
-               <span class="bi bi-plus-square-fill" aria-hidden="true"></span> Category
+               @* <span class="bi bi-plus-square-fill" aria-hidden="true"></span> *@
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill mt-4" viewBox="0 0 16 16">
+                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
+                </svg>
+               Category
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link p-2" href="/product" Match="NavLinkMatch.All">
-                <span class="bi bi-plus-square-fill" aria-hidden="true"></span> Product
+                @* <span class="bi bi-plus-square-fill" aria-hidden="true"></span> *@
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill mt-4" viewBox="0 0 16 16">
+                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
+                </svg>
+                Product
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link p-2" href="/order/list" Match="NavLinkMatch.All">
-                <span class="bi bi-plus-square-fill" aria-hidden="true"></span> Orders
+                @* <span class="bi bi-plus-square-fill" aria-hidden="true"></span> *@
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill mt-4" viewBox="0 0 16 16">
+                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
+                </svg>
+                Orders
             </NavLink>
         </div>
 
         <div class="nav-item px-3">
             <NavLink class="nav-link p-2" href="auth">
-                <span class="bi bi-lock" aria-hidden="true"></span> Auth Required
+                @* <span class="bi bi-lock" aria-hidden="true"></span> *@
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill mt-4" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4m0 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3" />
+                </svg>
+                Auth Required
             </NavLink>
         </div>
 
         @* App Info ----------------------*@ 
         <div class="nav-item px-3 ">
             <NavLink class="nav-link p-2 text-danger" style="cursor:pointer;" id="info" data-bs-toggle="modal" data-bs-target="#infoModal">
-                <span class="bi bi-info-circle-fill" aria-hidden="true"></span> App Info
+                @* <span class="bi bi-info-circle-fill" aria-hidden="true"></span> *@
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill mt-4" viewBox="0 0 16 16">
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
+                </svg>
+                App Info
             </NavLink>
         </div>
 
@@ -54,7 +78,12 @@
             <Authorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link p-2" href="Account/Manage">
-                        <span class="bi bi-person-fill" aria-hidden="true"></span> @context.User.Identity?.Name
+                        @* <span class="bi bi-person-fill" aria-hidden="true"></span>  *@
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-check mt-4" viewBox="0 0 16 16">
+                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                            <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
+                        </svg>
+                        @context.User.Identity?.Name
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
@@ -62,7 +91,12 @@
                         <AntiforgeryToken />
                         <input type="hidden" name="ReturnUrl" value="@currentUrl" />
                         <button type="submit" class="nav-link">
-                            <span class="bi bi-arrow-bar-left" aria-hidden="true"></span> Logout
+                            @* <span class="bi bi-arrow-bar-left" aria-hidden="true"></span> *@
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left mt-4" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z" />
+                                <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
+                            </svg>
+                            Logout
                         </button>
                     </form>
                 </div>

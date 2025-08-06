@@ -2,24 +2,24 @@
 using YumBlazor.Data;
 using YumBlazor.Models;
 using YumBlazor.Repos.Interfaces;
-using YumBlazor.Services;
 
 namespace YumBlazor.Repos.Implementation
 {
-    public class ProductRepos : IProductRepos
+    public class ProductRepos(ApplicationDbContext _db
+        ,IPhotoService _photoService) : IProductRepos
     {
-        private readonly ApplicationDbContext _db;
-        //private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IPhotoService _photoService;
+        //private readonly ApplicationDbContext _db;
+        ////private readonly IWebHostEnvironment _webHostEnvironment;
+        //private readonly IPhotoService _photoService;
 
-        public ProductRepos(ApplicationDbContext db
-            //, IWebHostEnvironment webHostEnvironment
-            , IPhotoService photoService)
-        {
-            _db = db;
-            //_webHostEnvironment = webHostEnvironment;
-            _photoService = photoService;
-        }
+        //public ProductRepos(ApplicationDbContext db
+        //    //, IWebHostEnvironment webHostEnvironment
+        //    , IPhotoService photoService)
+        //{
+        //    _db = db;
+        //    //_webHostEnvironment = webHostEnvironment;
+        //    _photoService = photoService;
+        //}
 
         public async Task<Product> CreateAsync(Product Product)
         {
@@ -27,17 +27,17 @@ namespace YumBlazor.Repos.Implementation
             await _db.SaveChangesAsync();
             return Product;
         }
-        
+
         public async Task<bool> DeleteAsync(int id)
         {
             var product = await _db.Products.FirstOrDefaultAsync(c => c.Id == id);
-            
-            if(product == null)
+
+            if (product == null)
             {
                 return false;
             }
 
-            if ( !string.IsNullOrEmpty(product.ImageUrl))
+            if (!string.IsNullOrEmpty(product.ImageUrl))
             {
                 //var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImageUrl.TrimStart('/'));
                 //if (File.Exists(imagePath))

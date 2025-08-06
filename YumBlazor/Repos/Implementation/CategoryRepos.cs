@@ -5,14 +5,14 @@ using YumBlazor.Repos.Interfaces;
 
 namespace YumBlazor.Repos.Implementation
 {
-    public class CategoryRepos : ICategoryRepos
+    public class CategoryRepos(ApplicationDbContext _db) : ICategoryRepos
     {
-        private readonly ApplicationDbContext _db;
+        //private readonly ApplicationDbContext _db;
 
-        public CategoryRepos(ApplicationDbContext db)
-        {
-            _db = db;
-        }
+        //public CategoryRepos(ApplicationDbContext db)
+        //{
+        //    _db = db;
+        //}
 
         public async Task<Category> CreateAsync(Category category)
         {

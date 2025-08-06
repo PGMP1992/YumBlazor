@@ -3,14 +3,14 @@ using YumBlazor.Repos.Interfaces;
 
 namespace YumBlazor.Repos.Implementation
 {
-    public class Common : ICommon
+    public class Common(AuthenticationStateProvider _AuthenticationStateProvider) : ICommon
     {
-        private AuthenticationStateProvider _AuthenticationStateProvider;
+        //private AuthenticationStateProvider _AuthenticationStateProvider;
 
-        public Common(AuthenticationStateProvider authenticationStateProvider)
-        {
-            _AuthenticationStateProvider = authenticationStateProvider;
-        }
+        //public Common(AuthenticationStateProvider authenticationStateProvider)
+        //{
+        //    _AuthenticationStateProvider = authenticationStateProvider;
+        //}
 
         public async Task<bool> IsUserAuthenticated()
         {

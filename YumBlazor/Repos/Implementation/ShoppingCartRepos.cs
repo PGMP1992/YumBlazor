@@ -6,14 +6,14 @@ using YumBlazor.Repos.Interfaces;
 
 namespace YumBlazor.Repos.Implementation
 {
-    public class ShoppingCartRepos : IShoppingCartRepos
+    public class ShoppingCartRepos(ApplicationDbContext _db) : IShoppingCartRepos
     {
-        private readonly ApplicationDbContext _db;
+        //private readonly ApplicationDbContext _db;
 
-        public ShoppingCartRepos(ApplicationDbContext db)
-        {
-            _db = db;
-        }
+        //public ShoppingCartRepos(ApplicationDbContext db)
+        //{
+        //    _db = db;
+        //}
 
         public async Task<bool> ClearCartAsync(string? userId)
         {
