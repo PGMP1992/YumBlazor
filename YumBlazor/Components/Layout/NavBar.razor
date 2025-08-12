@@ -123,7 +123,7 @@
 	protected override void OnInitialized()
 	{
 		_sharedStateService.OnChange += OnSharedStateChange;
-		await GetInitialCount();
+		GetInitialCount();
 	}
 
 	private void OnSharedStateChange()
