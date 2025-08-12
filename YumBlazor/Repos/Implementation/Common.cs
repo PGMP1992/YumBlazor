@@ -20,14 +20,14 @@ namespace YumBlazor.Repos.Implementation
             return authenticated;
         }
 
-        public async Task<string?> GetUserId()
+        public async Task<string> GetUserId()
         {
             var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
             return user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
         }
 
-        public async Task<string?> GetUserEmail()
+        public async Task<string> GetUserEmail()
         {
             var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;

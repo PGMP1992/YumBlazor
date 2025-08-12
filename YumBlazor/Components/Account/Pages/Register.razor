@@ -23,7 +23,7 @@
     <dic class="h-100 d-flex align-items-center justify-content-center pt-5">
         <div class="card shadow" style="width:28rem">
             <div class= "card-body">
-                <h5 class="card-title text-center display-6">Sign Up</h5>
+                <h5 class="card-title text-center display-6">Register</h5>
                 <StatusMessage Message="@Message" />
                 <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
                     <DataAnnotationsValidator />
@@ -78,7 +78,7 @@
 
     [SupplyParameterFromForm]
     private InputModel Input { get; set; } = new();
-    private ApplicationDbContext _db;
+    // private ApplicationDbContext _db;
 
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }

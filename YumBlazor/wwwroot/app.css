@@ -96,7 +96,6 @@ h1:focus {
 
 span.nav-link {
     color: black !important;
-    
 }
 
 .nav-link:focus, .nav-link:hover {
@@ -105,9 +104,10 @@ span.nav-link {
 }
 
     span.nav-link.active {
-        /*border-bottom: 3px solid #198754;*/
-        color: black !important;
-        text-decoration :underline; 
+        border-bottom: 3px solid #198754;
+        /*color: black !important;*/
+        /*text-decoration :underline;*/
+        margin-bottom : 10px;
     }
 
 .mark-up-string * {

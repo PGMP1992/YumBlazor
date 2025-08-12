@@ -8,7 +8,7 @@ namespace YumBlazor.Models
         public int Id { get; set; }
 
         [Required]
-        public string UserId { get; set; } = string.Empty;
+        public string UserId { get; set; } = "";
 
         [Required]
         [Display(Name ="Order Total")]
@@ -18,25 +18,25 @@ namespace YumBlazor.Models
         public DateTime OrderDate { get; set; }
 
         [Required]
-        public string Status { get; set; } = string.Empty;
+        public string Status { get; set; } = "";
 
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
         [Required]
         [MaxLength(50)]
         [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = "";
 
         [Required]
         [MaxLength(50)]
-        public string Email { get; set; }
+        public string Email { get; set; } = "";
 
         //Stripe Fields 
-        public string? SessionId { get; set; } = string.Empty;
-        public string? PaymentIntentId { get; set; } = string.Empty;
-        
+        public string? SessionId { get; set; } = "";
+        public string? PaymentIntentId { get; set; } = "";
+
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
 }

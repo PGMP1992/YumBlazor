@@ -226,7 +226,7 @@ else
         {
             _ = _photoService.DeletePhotoAsync(Product.ImageUrl);
             Product.ImageUrl = null;
-            _JS.ToastrSuccess("Picture Deleted.");
+            await _JS.ToastrSuccess("Picture Deleted.");
         }
     }
 }

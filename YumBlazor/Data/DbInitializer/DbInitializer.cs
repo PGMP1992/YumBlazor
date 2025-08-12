@@ -32,7 +32,7 @@ namespace YumBlazor.Data.DbInitializer
                     _db.Database.Migrate();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
