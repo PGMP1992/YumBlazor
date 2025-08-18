@@ -132,8 +132,6 @@ span.nav-link {
 }
 
 svg {
-    width: 16px;
-    height: 16px;
     fill: currentColor;
     vertical-align: middle;
 }

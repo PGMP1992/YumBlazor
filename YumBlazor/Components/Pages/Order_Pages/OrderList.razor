@@ -15,58 +15,49 @@
 }
 else
 {
-    
     <div class="container">
     
-    @if (! Orders.Any())
-    {
-        <div class="p-2">
-            <div class="alert alert-warning">
-                There are no Orders recorded in your acccount.
-            </div>
-        </div>
-    } 
-    else
-    { 
-        @* Header ======================== *@
-        <div class="card shadow mt-5">
-            <div class="card-header bg-black py-3">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <h2 class="text-white py-2">Order List</h2>
+        @if (Orders.Any())
+        {
+            @* Header ======================== *@
+            <div class="card shadow mt-5">
+                <div class="card-header bg-black py-3">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <h2 class="text-white py-2">Order List</h2>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-
-            <div class="card-body p-4">
-                @* Radzen ================================================== *@
-                <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced"
-                    AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
-                    ShowPagingSummary="true" Data="@Orders" ColumnWidth="300px"
-                    LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
-                    <Columns>
-                        <RadzenDataGridColumn Property="Id" Filterable="true" Title="Id" Frozen="true" Width="70px" />
-                        <RadzenDataGridColumn Property="OrderDate" Title="Date" FormatString="{0:d}" Width="100px" />
-                        <RadzenDataGridColumn Property="Total" Title="Total" FormatString="{0:C}" Width="100px" />
-                        <RadzenDataGridColumn Property="Status" Title="Status" Width="100px" />
-                        @if (IsAdmin == true)
-                        {
-                            <RadzenDataGridColumn Property="Name" Title="Name" Frozen="false" Width="100px" />
-                            <RadzenDataGridColumn Property="PhoneNumber" Title="Phone" Width="100px" />
-                            <RadzenDataGridColumn Property="Email" Title="Email" Width="120px" />
-                        }
-                        <RadzenDataGridColumn Title="Action" Sortable="true" Filterable="true" Width="80px" TextAlign="TextAlign.Center">
-                            <Template Context="Orders">
-                                <RadzenButton Shade="Shade.Dark" Text="Details" ButtonStyle="ButtonStyle.Dark" title="View Order Details"
-                                    Click="@(()=>_NavigationManager.NavigateTo($"order/details/{Orders.Id}"))"></RadzenButton>
-                            </Template>
-                        </RadzenDataGridColumn>
-                    </Columns>
-                </RadzenDataGrid> 
+                <div class="card-body p-4">
+                    @* Radzen ================================================== *@
+                    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced"
+                        AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+                        ShowPagingSummary="true" Data="@Orders" ColumnWidth="300px"
+                        LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
+                        <Columns>
+                            <RadzenDataGridColumn Property="Id" Filterable="true" Title="Id" Frozen="true" Width="70px" />
+                            <RadzenDataGridColumn Property="OrderDate" Title="Date" FormatString="{0:d}" Width="100px" />
+                            <RadzenDataGridColumn Property="Total" Title="Total" FormatString="{0:C}" Width="100px" />
+                            <RadzenDataGridColumn Property="Status" Title="Status" Width="100px" />
+                            @if (IsAdmin == true)
+                            {
+                                <RadzenDataGridColumn Property="Name" Title="Name" Frozen="false" Width="100px" />
+                                <RadzenDataGridColumn Property="PhoneNumber" Title="Phone" Width="100px" />
+                                <RadzenDataGridColumn Property="Email" Title="Email" Width="120px" />
+                            }
+                            <RadzenDataGridColumn Title="Action" Sortable="true" Filterable="true" Width="80px" TextAlign="TextAlign.Center">
+                                <Template Context="Orders">
+                                    <RadzenButton Shade="Shade.Dark" Text="Details" ButtonStyle="ButtonStyle.Dark" title="View Order Details"
+                                        Click="@(()=>_NavigationManager.NavigateTo($"order/details/{Orders.Id}"))"></RadzenButton>
+                                </Template>
+                            </RadzenDataGridColumn>
+                        </Columns>
+                    </RadzenDataGrid>
+                </div>
 
                 @* Default Grid ==================================================
-                @* <div class="table-responsive">
+                <div class="table-responsive">
                     <table class="table table-sm-3 table-hover">
                         <thead class="table-primary">
                             <tr>
@@ -104,14 +95,18 @@ else
                         </tbody>
                     </table>
                 </div> *@
-            </div>
-
         </div>
-                
     }
+    else
+    {
+        <div class="p-2">
+            <div class="alert alert-warning">
+                You have no Orders recorded.
+            </div>
+        </div>
+    } 
     
     </div>
-    
 }
 
 @code {
@@ -150,6 +145,12 @@ else
         {
             Orders = await _orderRepos.GetAllAsync(UserId);
         }
+        
+        // if (!Orders.Any())
+        // {
+        //     _JS?.ToastrError("There are no Orders registered in your Account");
+        //     _NavigationManager.NavigateTo("/");
+        // }
     }
 
 

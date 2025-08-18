@@ -23,7 +23,9 @@ namespace YumBlazor.Data.DbInitializer
         public void Initialize()
         {
             string admin = "admin@email.com";
+            string customer = "user@email.com";
             string pass = "Admin123*";
+            string phone = "+46 (0) 12345678";
 
             try
             {
@@ -50,13 +52,27 @@ namespace YumBlazor.Data.DbInitializer
                 {
                     UserName = admin,
                     Email = admin,
-                    PhoneNumber = "+46 (0) 12345678",
+                    PhoneNumber = phone,
                 }, pass).GetAwaiter().GetResult();
 
             if (result.Succeeded)
             {
                 AppUser user = _userManager.FindByEmailAsync(admin).GetAwaiter().GetResult();
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
+            }
+
+            // Create Customer User
+            result = _userManager.CreateAsync(new AppUser()
+            {
+                UserName = customer,
+                Email = customer,
+                PhoneNumber = phone,
+            }, pass).GetAwaiter().GetResult();
+
+            if (result.Succeeded)
+            {
+                AppUser user = _userManager.FindByEmailAsync(customer).GetAwaiter().GetResult();
+                _userManager.AddToRoleAsync(user, SD.Role_Customer).GetAwaiter().GetResult();
             }
         }
     }

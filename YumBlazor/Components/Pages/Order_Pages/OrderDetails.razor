@@ -22,7 +22,7 @@ else
             </ol>
         </nav> *@
 
-        <div class="card border border-0">
+        <div class="card shadow">
             <div class="card-header bg-dark text-white">
                 <span class="h4">Order Details - Id: <b>@OrderHeader.Id</b></span>
             </div>
@@ -64,19 +64,31 @@ else
                     {
                         <div>
                             <button class="btn btn-danger" @onclick="()=>UpdateStatus(SD.StatusCancelled)">
-                                <i class="bi bi-x-circle"></i> Cancel Order
+                               @*  <i class="bi bi-x-circle"></i> *@
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle mx-1" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                </svg>
+                                Cancel Order
                             </button>
 
                             @if (OrderHeader.Status == SD.StatusApproved)
                             {
                                 <button class="btn btn-outline-dark mx-1" @onclick="() => UpdateStatus(SD.StatusReadyForPickUp)">
-                                    <i class="bi bi-box-seam"></i> Ready for Pickup
+                                    @* <i class="bi bi-box-seam"></i> *@
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-seam mx-1" viewBox="0 0 16 16">
+                                        <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z" />
+                                    </svg>Ready for Pickup
                                 </button>
                             }
                             @if (OrderHeader.Status == SD.StatusReadyForPickUp)
                             {
                                 <button class="btn btn-outline-success" @onclick="() => UpdateStatus(SD.StatusCompleted)">
-                                    <i class="bi bi-check-circle"></i> Completed
+                                   @*  <i class="bi bi-check-circle"></i> *@
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle mx-1" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                        <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                                    </svg>Completed
                                 </button>
                             }
                         </div>
