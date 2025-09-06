@@ -1,4 +1,4 @@
-<h6 class="mt-3">E-Commerce Website for Restaurant Orders</h6>
+<h2>E-Commerce Website for Restaurant Orders</h2>
           <ul>
             <li>ASP.NET Core</li>
             <li>Blazor SSR and Server Interactivity</li>
@@ -8,14 +8,14 @@
             <li>Integration with Stripe payments</li>
             <li>Email Notifications</li>
           </ul>                 
-<div class="h6" style="color:midnightblue">
-    Following are the User Accounts that exist by default ( Password: <b>Admin123*</b> ): </div>
+<h4>
+    Following are the User Accounts that exist by default ( Password: <b>Admin123*</b> ): </h4>
 <ul>
     <li>Admin User      : <b>admin@email.com</b> </li>
     <li>Individual User : <b>user1@email.com</b></li>
 </ul>
 
-<div class="h6" style="color:midnightblue">How to use the website:</div>
+<h4>How to use the website:</h4>
 <ul>
     <li>This website is intended to serve as a demo application.</li>
     <li>You can create a new user using Register on the main menu.</li>
