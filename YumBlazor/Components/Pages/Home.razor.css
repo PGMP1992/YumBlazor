@@ -28,3 +28,13 @@
     width: 135px;
     cursor: pointer;
 }
+
+.nav-link:focus, .nav-link:hover {
+    text-decoration: none;
+}
+
+.nav-link {
+    margin-bottom: 10px;
+    color: black;
+}
+

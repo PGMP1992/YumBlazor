@@ -36,7 +36,6 @@ builder.Services.AddScoped<IOrderRepos, OrderRepos>();
 
 // Utilities - Services 
 builder.Services.AddScoped<ICommon, Common>();
-
 builder.Services.AddSingleton<SharedStateService>();
 builder.Services.AddScoped<PaymentService>();
 
@@ -96,10 +95,9 @@ else
 }
 
 app.UseHttpsRedirection();
-
 app.UseAntiforgery();
-
 app.MapStaticAssets();
+
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
