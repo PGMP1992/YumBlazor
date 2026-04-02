@@ -116,7 +116,7 @@ span.nav-link {
 
 .card {
     border: 1px ridge;
-    /*background: linear-gradient(90deg, #007bff, #5b3b3b);*/
+    background: linear-gradient(90deg, #007bff, #5b3b3b);
 }
 
 .footer {
